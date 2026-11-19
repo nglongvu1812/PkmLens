@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build outputs
+dist/
+build/
+
+# Python & Virtual Environments
+.venv/
+.venv*/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+*.coverage.*
+
+# Data, Models & Heavy Weights (Store in cloud storage or pull via scripts)
+data/
+runs/
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.faiss
+*.npy
+*.y4m
+*.mp4
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment & Secret files
+.env
+.env.*
+!.env.example
+.ai_internal_key
+
+# Logs & Temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.tsbuildinfo
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local tooling & agents caches
+.opencode/
+scratch/
+.impeccable/

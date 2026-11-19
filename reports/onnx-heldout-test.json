@@ -1,0 +1,29 @@
+{
+  "source": "direct Ultralytics ONNX Runtime CPU API evaluation",
+  "physical_camera": false,
+  "dataset": "data/datasets/cards-pose-synthetic-v1",
+  "split": "test",
+  "images": 100,
+  "objects": 237,
+  "actual_batch": 1,
+  "requested_batch": 4,
+  "imgsz": 480,
+  "provider": "CPUExecutionProvider",
+  "inference_ms_per_image": 19.1,
+  "metrics": {
+    "metrics/precision(B)": 0.9997979334410113,
+    "metrics/recall(B)": 1.0,
+    "metrics/mAP50(B)": 0.995,
+    "metrics/mAP50-95(B)": 0.976219838472973,
+    "metrics/precision(P)": 0.9997979334410113,
+    "metrics/recall(P)": 1.0,
+    "metrics/mAP50(P)": 0.995,
+    "metrics/mAP50-95(P)": 0.994704641350211
+  },
+  "limitations": [
+    "synthetic test only",
+    "static export enforces batch 1",
+    "API validation creates test.cache; generated cache removed after run",
+    "CLI evaluate remains trusted PT only"
+  ]
+}

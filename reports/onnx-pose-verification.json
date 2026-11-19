@@ -1,0 +1,2738 @@
+{
+  "schema_version": 1,
+  "started_at_utc": "2026-11-18T13:25:35.228378+00:00",
+  "status": "completed_onnx_export_cpu_parity_and_benchmark;_tensorrt_unavailable",
+  "scope": "Actual offline local ONNX export, graph/schema verification, CPU parity and CPU-vs-.pt inference benchmark on synthetic heldout scenes; concurrent UI load; no real-camera accuracy claim.",
+  "working_directory": "D:\\Project\\PkmLens",
+  "checkpoint": {
+    "path": "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+    "sha256": "7a1fdb0724b671f46d1133d12f1f2fbef8f54c03669a8112d34baa24231b897b"
+  },
+  "safety": {
+    "network_downloads": false,
+    "dependency_installs": false,
+    "automatic_installation": false,
+    "environment_modified": false,
+    "services_modified": false,
+    "registries_modified": false,
+    "evaluate_artifacts_modified": false,
+    "source_files_modified": true,
+    "project_local_dependency_installs_only": true,
+    "cardlens_env_dependency_installs": false,
+    "installed_project_local_packages": [
+      "onnx==1.23.2",
+      "ml_dtypes==0.7.0"
+    ],
+    "installed_by_this_worker": false,
+    "project_target_dependencies_provided_by_main": [
+      "onnx==1.23.2",
+      "ml_dtypes==0.7.0"
+    ],
+    "cardlens_env_modified": false,
+    "cardlens_environment": "read-only; no package install or mutation",
+    "onnx_artifact_created_in_trained_run": true,
+    "actual_export_success": true
+  },
+  "environment": {
+    "python": "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.28000-SP0",
+    "cpu": "Intel64 Family 6 Model 151 Stepping 5, GenuineIntel",
+    "logical_cpu_count": 8,
+    "PYTHONPATH": "data/verification-deps/onnx;services/core-api;services/ai;.",
+    "YOLO_OFFLINE": "true",
+    "YOLO_AUTOINSTALL": "false",
+    "packages": {
+      "torch": "2.14.1+cu126 (CardLens env, read-only)",
+      "ultralytics": "8.4.214 (CardLens env, read-only)",
+      "onnx": "1.23.2 (project-local target; provided by main)",
+      "onnxruntime": "1.32.0 (CardLens environment, read-only)",
+      "onnxruntime-gpu": null,
+      "onnxscript": null,
+      "onnxslim": null,
+      "tensorrt": null,
+      "tensorrt-cu12": null,
+      "tensorrt-cu13": null,
+      "numpy": "2.5.4",
+      "opencv-python": "5.0.0.93",
+      "protobuf": "7.36.2 (CardLens environment, read-only)",
+      "typing_extensions": "4.16.0",
+      "ml_dtypes": "0.7.0 (project-local target; provided by main)"
+    },
+    "onnx": {
+      "import": "ok",
+      "version": "1.23.2",
+      "file": "D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\onnx\\__init__.py"
+    },
+    "onnxruntime": {
+      "import": "ok",
+      "version": "1.32.0",
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "selected_provider": "CPUExecutionProvider"
+    },
+    "tensorrt": {
+      "import": "failed",
+      "error": "ModuleNotFoundError: No module named 'tensorrt'"
+    },
+    "cpu_model_from_exporter": "12th Gen Intel Core i3-12100F",
+    "torch": {
+      "cuda_available": true,
+      "cuda_build": "12.6",
+      "device_count": 1,
+      "num_threads": 4,
+      "num_interop_threads": 4,
+      "devices": [
+        {
+          "name": "NVIDIA GeForce GTX 1660 Ti",
+          "compute_capability": [
+            7,
+            5
+          ],
+          "properties": "_CudaDeviceProperties(name='NVIDIA GeForce GTX 1660 Ti', major=7, minor=5, total_memory=6143MB, multi_processor_count=24, uuid=14a56afe-404e-216c-1ede-81ee898796a7, pci_bus_id=1, pci_device_id=0, pci_domain_id=0, L2_cache_size=1MB)"
+        }
+      ],
+      "actual_cuda_matmul": [
+        [
+          56.0,
+          62.0,
+          68.0,
+          74.0
+        ],
+        [
+          152.0,
+          174.0,
+          196.0,
+          218.0
+        ],
+        [
+          248.0,
+          286.0,
+          324.0,
+          362.0
+        ],
+        [
+          344.0,
+          398.0,
+          452.0,
+          506.0
+        ]
+      ]
+    },
+    "nvidia_smi": {
+      "returncode": 0,
+      "stdout": "NVIDIA GeForce GTX 1660 Ti, 617.42, 6144 MiB, 1572 MiB, 21 %, 7.5",
+      "stderr": ""
+    },
+    "trtexec_on_path": null,
+    "ml_dtypes": {
+      "import": "ok",
+      "version": "0.7.0",
+      "file": "D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\ml_dtypes\\__init__.py"
+    },
+    "onnxscript": {
+      "import": "not_installed",
+      "needed_by_successful_export": false
+    },
+    "onnxslim": {
+      "import": "not_installed",
+      "needed_by_successful_export": false
+    },
+    "protobuf": {
+      "version": "7.36.2",
+      "source": "CardLens env read-only"
+    }
+  },
+  "synthetic_scenes": {
+    "selection": "First manifest test scene for each available object count; fixed before inference",
+    "dataset": "data\\datasets\\cards-pose-synthetic-v1",
+    "manifest_sha256": "b2e535a35c700b337382f885defcb2e473dbdb3aa8b039d137f8a93aea8caa69",
+    "purpose": "Representative input/schema and timing only, not a replacement for full heldout evaluation",
+    "scenes": [
+      {
+        "sample_id": "test-00000",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\90ef14899ac641ef6ade16b37a9f28f74b82a0384b2f579e418e039e989e2eea.jpg",
+        "sha256": "04895c235373cd8ef6caade5b83f0d608b71e7f877a8b14c8b38572db7a5d46d",
+        "split": "test",
+        "source_kind": "synthetic_catalog_scene",
+        "labeled_objects": 0,
+        "image_shape_hwc": [
+          640,
+          640,
+          3
+        ]
+      },
+      {
+        "sample_id": "test-00001",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\4bf33a9ea9989e8c812068c0eff2ff4a39d6b882afb79b824781cf9eb3ba615b.jpg",
+        "sha256": "53f1e0ebbacca10ecab2b7c0b7eec1f6c59707fef6fa90b3bb5ac1ed1f8026a5",
+        "split": "test",
+        "source_kind": "synthetic_catalog_scene",
+        "labeled_objects": 1,
+        "image_shape_hwc": [
+          640,
+          640,
+          3
+        ]
+      },
+      {
+        "sample_id": "test-00003",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\afca6e94faee1177a7ba2ed068bdf61f22f7a368ed31ac099592c0437831ce03.jpg",
+        "sha256": "e27cce557491edaf08e63d5e488a95e62788d4f2008b434e99582cb0dbbfda3a",
+        "split": "test",
+        "source_kind": "synthetic_catalog_scene",
+        "labeled_objects": 2,
+        "image_shape_hwc": [
+          640,
+          640,
+          3
+        ]
+      },
+      {
+        "sample_id": "test-00002",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ca55085e309ba5c02591bdc7bbd5f75c6d778e9834d3dafaf0bb2d75c5903aab.jpg",
+        "sha256": "83e5389ef32796f9d7bd6d2f50c911cb0df967e0a5915fb7abeccd190c5f87a6",
+        "split": "test",
+        "source_kind": "synthetic_catalog_scene",
+        "labeled_objects": 3,
+        "image_shape_hwc": [
+          640,
+          640,
+          3
+        ]
+      },
+      {
+        "sample_id": "test-00006",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ee7107323bcfca63b70d6f2f8829a9724456a3d93628998406718cd03c4ff526.jpg",
+        "sha256": "f81218cce3474f7d4901f930632392f10aea24076ac9b118ce01404aefb479a7",
+        "split": "test",
+        "source_kind": "synthetic_catalog_scene",
+        "labeled_objects": 4,
+        "image_shape_hwc": [
+          640,
+          640,
+          3
+        ]
+      }
+    ]
+  },
+  "worker_help": {
+    "commands": [
+      [
+        "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+        "-m",
+        "ml.train_pose",
+        "export",
+        "--help"
+      ],
+      [
+        "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+        "-m",
+        "ml.train_pose",
+        "compare",
+        "--help"
+      ]
+    ],
+    "result": "Both exit 0; shared action parser supports --checkpoint, --image, --imgsz {320,480,640}, --device {auto,cpu,0}"
+  },
+  "onnx_export": {
+    "status": "success",
+    "command": [
+      "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+      "-m",
+      "ml.train_pose",
+      "export",
+      "--checkpoint",
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+      "--imgsz",
+      "480",
+      "--device",
+      "cpu"
+    ],
+    "exit_code": 0,
+    "executed": true,
+    "log_excerpt": "Actual project-target export succeeded; see current_rerun details.",
+    "exception_source": "project-local onnx import requires absent ml_dtypes",
+    "required_dependency_from_exporter": "onnx>=1.12.0,<2.0.0",
+    "export_options": {
+      "format": "onnx",
+      "imgsz": 480,
+      "device": "cpu",
+      "dynamic": false,
+      "simplify": false
+    },
+    "artifact": "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.onnx",
+    "artifact_exists": true,
+    "export_preparation_pytorch_input_shape": [
+      1,
+      3,
+      480,
+      480
+    ],
+    "export_preparation_pytorch_output_shape": [
+      1,
+      17,
+      4725
+    ],
+    "output_channel_interpretation": "4 box coordinates + 1 class score + 4 keypoints x (x,y,confidence) = 17 channels",
+    "schema_claim_scope": "PyTorch export-preparation output only; no ONNX graph was serialized or executed",
+    "previous_attempt_before_project_dependency": {
+      "status": "failed_missing_dependency",
+      "log_excerpt": "PyTorch: starting from best.pt with input shape (1, 3, 480, 480) BCHW and output shape(s) (1, 17, 4725) (5.7 MB)\nWARNING requirements: Ultralytics requirement ['onnx>=1.12.0,<2.0.0'] not found, AutoUpdate disabled by YOLO_AUTOINSTALL=False\nERROR ONNX: export failure 0.0s: No module named 'onnx'\nModuleNotFoundError: No module named 'onnx'",
+      "exception_source": "ultralytics/engine/exporter.py:1194 import onnx"
+    },
+    "stdout": "Ultralytics 8.4.214  Python-3.12.10 torch-2.14.1+cu126 CPU (12th Gen Intel Core i3-12100F)\nYOLO26n-card-pose summary (fused): 130 layers, 2,482,051 parameters, 0 gradients, 3.2 GFLOPs\n\n\u001b[34m\u001b[1mPyTorch:\u001b[0m starting from 'D:\\Project\\PkmLens\\data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt' with input shape (1, 3, 480, 480) BCHW and output shape(s) (1, 17, 4725) (5.7 MB)\nERROR \u001b[34m\u001b[1mONNX:\u001b[0m export failure 0.0s: No module named 'ml_dtypes'\nExport to ONNX in the cloud with Ultralytics Platform: https://platform.ultralytics.com\n",
+    "stderr": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"D:\\Project\\PkmLens\\ml\\train_pose.py\", line 451, in <module>\n    main()\n  File \"D:\\Project\\PkmLens\\ml\\train_pose.py\", line 426, in main\n    output = Path(model.export(format=\"onnx\", imgsz=args.imgsz, device=device,\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\ultralytics\\engine\\model.py\", line 798, in export\n    return Exporter(overrides=args, _callbacks=self.callbacks)(model=self.model)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\ultralytics\\engine\\exporter.py\", line 1085, in __call__\n    f = getattr(self, f\"export_{fmt}\")()\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\ultralytics\\engine\\exporter.py\", line 562, in outer_func\n    f = inner_func(*args, **kwargs)  # exported file/dir or tuple of (file/dir, *)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\ultralytics\\engine\\exporter.py\", line 1194, in export_onnx\n    import onnx\n  File \"D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\onnx\\__init__.py\", line 142, in <module>\n    from onnx import (\n  File \"D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\onnx\\compose.py\", line 8, in <module>\n    from onnx import (\n  File \"D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\onnx\\helper.py\", line 18, in <module>\n    from onnx import _mapping, defs\n  File \"D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\onnx\\_mapping.py\", line 8, in <module>\n    import ml_dtypes\nModuleNotFoundError: No module named 'ml_dtypes'\n",
+    "output_path": "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.onnx",
+    "sha256": "f2f4573a202a22b1c72490c666e3640fe3ab5b1d162b2e8304deaefdf1163fde",
+    "graph_checker": "passed",
+    "current_rerun": true,
+    "opset": 18,
+    "graph_input_shape": [
+      1,
+      3,
+      480,
+      480
+    ],
+    "graph_output_shape": [
+      1,
+      17,
+      4725
+    ]
+  },
+  "onnx_cpu_parity": {
+    "status": "passed",
+    "executed": true,
+    "provider": "CPUExecutionProvider",
+    "scenes": [
+      {
+        "sample_id": "test-00000",
+        "labeled_objects": 0,
+        "max_box_difference_px": 0.0,
+        "max_corner_difference_px": 0.0,
+        "max_detection_confidence_difference": 0.0,
+        "max_keypoint_confidence_difference": 0.0,
+        "detections": 0,
+        "matched_onnx_indices": [],
+        "min_matched_box_iou": null,
+        "empty_agreement_only": true,
+        "parity_passed": true,
+        "thresholds": {
+          "coordinate_difference_px_exclusive": 2.0,
+          "confidence_difference_exclusive": 0.01,
+          "minimum_box_iou": 0.9
+        }
+      },
+      {
+        "sample_id": "test-00001",
+        "labeled_objects": 1,
+        "max_box_difference_px": 3.0517578125e-05,
+        "max_corner_difference_px": 0.0001220703125,
+        "max_detection_confidence_difference": 5.960464477539063e-08,
+        "max_keypoint_confidence_difference": 1.1920928955078125e-07,
+        "detections": 1,
+        "matched_onnx_indices": [
+          0
+        ],
+        "min_matched_box_iou": 1.0,
+        "empty_agreement_only": false,
+        "parity_passed": true,
+        "thresholds": {
+          "coordinate_difference_px_exclusive": 2.0,
+          "confidence_difference_exclusive": 0.01,
+          "minimum_box_iou": 0.9
+        }
+      },
+      {
+        "sample_id": "test-00003",
+        "labeled_objects": 2,
+        "max_box_difference_px": 0.000152587890625,
+        "max_corner_difference_px": 9.1552734375e-05,
+        "max_detection_confidence_difference": 5.960464477539063e-08,
+        "max_keypoint_confidence_difference": 1.1920928955078125e-07,
+        "detections": 2,
+        "matched_onnx_indices": [
+          0,
+          1
+        ],
+        "min_matched_box_iou": 0.9999991655349731,
+        "empty_agreement_only": false,
+        "parity_passed": true,
+        "thresholds": {
+          "coordinate_difference_px_exclusive": 2.0,
+          "confidence_difference_exclusive": 0.01,
+          "minimum_box_iou": 0.9
+        }
+      },
+      {
+        "sample_id": "test-00002",
+        "labeled_objects": 3,
+        "max_box_difference_px": 1.9073486328125e-05,
+        "max_corner_difference_px": 0.0001220703125,
+        "max_detection_confidence_difference": 5.960464477539063e-08,
+        "max_keypoint_confidence_difference": 1.7881393432617188e-07,
+        "detections": 3,
+        "matched_onnx_indices": [
+          0,
+          1,
+          2
+        ],
+        "min_matched_box_iou": 1.0,
+        "empty_agreement_only": false,
+        "parity_passed": true,
+        "thresholds": {
+          "coordinate_difference_px_exclusive": 2.0,
+          "confidence_difference_exclusive": 0.01,
+          "minimum_box_iou": 0.9
+        }
+      },
+      {
+        "sample_id": "test-00006",
+        "labeled_objects": 4,
+        "max_box_difference_px": 9.1552734375e-05,
+        "max_corner_difference_px": 0.0001220703125,
+        "max_detection_confidence_difference": 1.1920928955078125e-07,
+        "max_keypoint_confidence_difference": 1.1920928955078125e-07,
+        "detections": 4,
+        "matched_onnx_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "min_matched_box_iou": 0.9999995827674866,
+        "empty_agreement_only": false,
+        "parity_passed": true,
+        "thresholds": {
+          "coordinate_difference_px_exclusive": 2.0,
+          "confidence_difference_exclusive": 0.01,
+          "minimum_box_iou": 0.9
+        }
+      }
+    ],
+    "cli_real_model_runs": [
+      {
+        "sample_id": "90ef14899ac641ef6ade16b37a9f28f74b82a0384b2f579e418e039e989e2eea",
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data/datasets/cards-pose-synthetic-v1/images/test/90ef14899ac641ef6ade16b37a9f28f74b82a0384b2f579e418e039e989e2eea.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\90ef14899ac641ef6ade16b37a9f28f74b82a0384b2f579e418e039e989e2eea.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 0.0,
+          "max_corner_difference_px": 0.0,
+          "max_detection_confidence_difference": 0.0,
+          "max_keypoint_confidence_difference": 0.0,
+          "detections": 0,
+          "matched_onnx_indices": [],
+          "min_matched_box_iou": null,
+          "empty_agreement_only": true,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      },
+      {
+        "sample_id": "4bf33a9ea9989e8c812068c0eff2ff4a39d6b882afb79b824781cf9eb3ba615b",
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data/datasets/cards-pose-synthetic-v1/images/test/4bf33a9ea9989e8c812068c0eff2ff4a39d6b882afb79b824781cf9eb3ba615b.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\4bf33a9ea9989e8c812068c0eff2ff4a39d6b882afb79b824781cf9eb3ba615b.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 3.0517578125e-05,
+          "max_corner_difference_px": 0.000152587890625,
+          "max_detection_confidence_difference": 0.0,
+          "max_keypoint_confidence_difference": 1.1920928955078125e-07,
+          "detections": 1,
+          "matched_onnx_indices": [
+            0
+          ],
+          "min_matched_box_iou": 1.0,
+          "empty_agreement_only": false,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      },
+      {
+        "sample_id": "afca6e94faee1177a7ba2ed068bdf61f22f7a368ed31ac099592c0437831ce03",
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data/datasets/cards-pose-synthetic-v1/images/test/afca6e94faee1177a7ba2ed068bdf61f22f7a368ed31ac099592c0437831ce03.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\afca6e94faee1177a7ba2ed068bdf61f22f7a368ed31ac099592c0437831ce03.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 0.000152587890625,
+          "max_corner_difference_px": 6.103515625e-05,
+          "max_detection_confidence_difference": 1.1920928955078125e-07,
+          "max_keypoint_confidence_difference": 1.1920928955078125e-07,
+          "detections": 2,
+          "matched_onnx_indices": [
+            0,
+            1
+          ],
+          "min_matched_box_iou": 0.9999988675117493,
+          "empty_agreement_only": false,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      },
+      {
+        "sample_id": "ca55085e309ba5c02591bdc7bbd5f75c6d778e9834d3dafaf0bb2d75c5903aab",
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data/datasets/cards-pose-synthetic-v1/images/test/ca55085e309ba5c02591bdc7bbd5f75c6d778e9834d3dafaf0bb2d75c5903aab.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ca55085e309ba5c02591bdc7bbd5f75c6d778e9834d3dafaf0bb2d75c5903aab.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 6.103515625e-05,
+          "max_corner_difference_px": 0.000152587890625,
+          "max_detection_confidence_difference": 5.960464477539063e-08,
+          "max_keypoint_confidence_difference": 1.7881393432617188e-07,
+          "detections": 3,
+          "matched_onnx_indices": [
+            0,
+            1,
+            2
+          ],
+          "min_matched_box_iou": 0.9999997019767761,
+          "empty_agreement_only": false,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      },
+      {
+        "sample_id": "ee7107323bcfca63b70d6f2f8829a9724456a3d93628998406718cd03c4ff526",
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data/datasets/cards-pose-synthetic-v1/images/test/ee7107323bcfca63b70d6f2f8829a9724456a3d93628998406718cd03c4ff526.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ee7107323bcfca63b70d6f2f8829a9724456a3d93628998406718cd03c4ff526.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 0.0001220703125,
+          "max_corner_difference_px": 0.0001220703125,
+          "max_detection_confidence_difference": 5.960464477539063e-08,
+          "max_keypoint_confidence_difference": 1.1920928955078125e-07,
+          "detections": 4,
+          "matched_onnx_indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "min_matched_box_iou": 0.9999995827674866,
+          "empty_agreement_only": false,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      }
+    ],
+    "all_cli_passed": true,
+    "positive_detection_scenes": 4,
+    "empty_scene_semantics": "The zero-label test scene yields zero detections on both backends; empty agreement only, not positive detection evidence.",
+    "matching": "Greedy highest-IoU one-to-one association for the single pokemon_card class; minimum IoU .9; compare box XYXY, ordered TL/TR/BR/BL corner XY, detection confidence and each corner confidence.",
+    "thresholds": {
+      "minimum_box_iou": 0.9,
+      "coordinate_difference_px_exclusive": 2.0,
+      "confidence_difference_exclusive": 0.01
+    },
+    "raw_same_tensor_comparison": {
+      "same_input_tensor_sha256": "5e45a85377f17eca4e6cc2edd69dc98bd6029a80457fdda2be9ce8fdcbfa5e6d",
+      "input_shape": [
+        1,
+        3,
+        480,
+        480
+      ],
+      "input_dtype": "float32",
+      "output_shape": [
+        1,
+        17,
+        4725
+      ],
+      "max_raw_box_coordinate_difference_px": 0.0003662109375,
+      "max_raw_class_score_difference": 5.066394805908203e-07,
+      "max_raw_corner_xy_difference_px": 0.0001373291015625,
+      "max_raw_keypoint_confidence_difference": 8.344650268554688e-07,
+      "provider": [
+        "CPUExecutionProvider"
+      ]
+    },
+    "actual_rerun": "After current export: real CLI compare passed all five fixed scenes; 4 scenes produced 1/2/3/4 detections; fifth scene had no labels/predictions and is empty agreement only.",
+    "cli_real_model_runs_current_artifact": [
+      {
+        "sample_id": "test-00000",
+        "labeled_objects": 0,
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\90ef14899ac641ef6ade16b37a9f28f74b82a0384b2f579e418e039e989e2eea.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\90ef14899ac641ef6ade16b37a9f28f74b82a0384b2f579e418e039e989e2eea.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 0.0,
+          "max_corner_difference_px": 0.0,
+          "max_detection_confidence_difference": 0.0,
+          "max_keypoint_confidence_difference": 0.0,
+          "detections": 0,
+          "matched_onnx_indices": [],
+          "min_matched_box_iou": null,
+          "empty_agreement_only": true,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      },
+      {
+        "sample_id": "test-00001",
+        "labeled_objects": 1,
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\4bf33a9ea9989e8c812068c0eff2ff4a39d6b882afb79b824781cf9eb3ba615b.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\4bf33a9ea9989e8c812068c0eff2ff4a39d6b882afb79b824781cf9eb3ba615b.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 3.0517578125e-05,
+          "max_corner_difference_px": 0.000152587890625,
+          "max_detection_confidence_difference": 0.0,
+          "max_keypoint_confidence_difference": 1.1920928955078125e-07,
+          "detections": 1,
+          "matched_onnx_indices": [
+            0
+          ],
+          "min_matched_box_iou": 1.0,
+          "empty_agreement_only": false,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      },
+      {
+        "sample_id": "test-00003",
+        "labeled_objects": 2,
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\afca6e94faee1177a7ba2ed068bdf61f22f7a368ed31ac099592c0437831ce03.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\afca6e94faee1177a7ba2ed068bdf61f22f7a368ed31ac099592c0437831ce03.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 0.000152587890625,
+          "max_corner_difference_px": 6.103515625e-05,
+          "max_detection_confidence_difference": 1.1920928955078125e-07,
+          "max_keypoint_confidence_difference": 1.1920928955078125e-07,
+          "detections": 2,
+          "matched_onnx_indices": [
+            0,
+            1
+          ],
+          "min_matched_box_iou": 0.9999988675117493,
+          "empty_agreement_only": false,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      },
+      {
+        "sample_id": "test-00002",
+        "labeled_objects": 3,
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ca55085e309ba5c02591bdc7bbd5f75c6d778e9834d3dafaf0bb2d75c5903aab.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ca55085e309ba5c02591bdc7bbd5f75c6d778e9834d3dafaf0bb2d75c5903aab.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 6.103515625e-05,
+          "max_corner_difference_px": 0.000152587890625,
+          "max_detection_confidence_difference": 5.960464477539063e-08,
+          "max_keypoint_confidence_difference": 1.7881393432617188e-07,
+          "detections": 3,
+          "matched_onnx_indices": [
+            0,
+            1,
+            2
+          ],
+          "min_matched_box_iou": 0.9999997019767761,
+          "empty_agreement_only": false,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      },
+      {
+        "sample_id": "test-00006",
+        "labeled_objects": 4,
+        "command": [
+          "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+          "-m",
+          "ml.train_pose",
+          "compare",
+          "--checkpoint",
+          "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+          "--image",
+          "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ee7107323bcfca63b70d6f2f8829a9724456a3d93628998406718cd03c4ff526.jpg",
+          "--imgsz",
+          "480",
+          "--device",
+          "cpu"
+        ],
+        "exit_code": 0,
+        "result": {
+          "image": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ee7107323bcfca63b70d6f2f8829a9724456a3d93628998406718cd03c4ff526.jpg",
+          "imgsz": 480,
+          "max_box_difference_px": 0.0001220703125,
+          "max_corner_difference_px": 0.0001220703125,
+          "max_detection_confidence_difference": 5.960464477539063e-08,
+          "max_keypoint_confidence_difference": 1.1920928955078125e-07,
+          "detections": 4,
+          "matched_onnx_indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "min_matched_box_iou": 0.9999995827674866,
+          "empty_agreement_only": false,
+          "parity_passed": true,
+          "thresholds": {
+            "coordinate_difference_px_exclusive": 2.0,
+            "confidence_difference_exclusive": 0.01,
+            "minimum_box_iou": 0.9
+          }
+        },
+        "stderr": ""
+      }
+    ]
+  },
+  "pytorch_schema": {
+    "verified": true,
+    "task": "pose",
+    "names": {
+      "0": "pokemon_card"
+    },
+    "nc": 1,
+    "kpt_shape": [
+      4,
+      3
+    ],
+    "keypoint_order": {
+      "0": [
+        "top_left",
+        "top_right",
+        "bottom_right",
+        "bottom_left"
+      ]
+    },
+    "scale": "n"
+  },
+  "pytorch_cpu_scene_outputs": [
+    {
+      "sample_id": "test-00000",
+      "detections": 0,
+      "boxes_shape": [
+        0,
+        6
+      ],
+      "boxes_xyxy_conf_cls": [],
+      "keypoints_shape": [
+        0,
+        4,
+        3
+      ],
+      "keypoints_TL_TR_BR_BL_xy_conf": []
+    },
+    {
+      "sample_id": "test-00001",
+      "detections": 1,
+      "boxes_shape": [
+        1,
+        6
+      ],
+      "boxes_xyxy_conf_cls": [
+        [
+          272.78009033203125,
+          0.0,
+          640.0,
+          342.7053527832031,
+          0.9425550699234009,
+          0.0
+        ]
+      ],
+      "keypoints_shape": [
+        1,
+        4,
+        3
+      ],
+      "keypoints_TL_TR_BR_BL_xy_conf": [
+        [
+          [
+            640.0,
+            121.98821258544922,
+            0.9981897473335266
+          ],
+          [
+            581.6554565429688,
+            351.7421569824219,
+            0.9973269701004028
+          ],
+          [
+            264.2269592285156,
+            220.19703674316406,
+            0.9962623715400696
+          ],
+          [
+            353.1268615722656,
+            0.0,
+            0.9992929697036743
+          ]
+        ]
+      ]
+    },
+    {
+      "sample_id": "test-00003",
+      "detections": 2,
+      "boxes_shape": [
+        2,
+        6
+      ],
+      "boxes_xyxy_conf_cls": [
+        [
+          326.6971130371094,
+          3.7677409648895264,
+          631.2958374023438,
+          310.2911682128906,
+          0.9823322892189026,
+          0.0
+        ],
+        [
+          61.79640579223633,
+          364.8558044433594,
+          257.5536193847656,
+          609.3201293945312,
+          0.9817554950714111,
+          0.0
+        ]
+      ],
+      "keypoints_shape": [
+        2,
+        4,
+        3
+      ],
+      "keypoints_TL_TR_BR_BL_xy_conf": [
+        [
+          [
+            463.9690246582031,
+            309.0641174316406,
+            0.960178792476654
+          ],
+          [
+            332.4844970703125,
+            190.1539306640625,
+            0.9905686974525452
+          ],
+          [
+            493.216064453125,
+            7.184366703033447,
+            0.9778298735618591
+          ],
+          [
+            620.7377319335938,
+            121.60721588134766,
+            0.9585239887237549
+          ]
+        ],
+        [
+          [
+            59.90469741821289,
+            376.9983215332031,
+            0.9997552037239075
+          ],
+          [
+            228.5244903564453,
+            352.9625244140625,
+            0.9992828965187073
+          ],
+          [
+            253.7834930419922,
+            585.4818725585938,
+            0.9911198019981384
+          ],
+          [
+            90.8512954711914,
+            606.1980590820312,
+            0.9996057152748108
+          ]
+        ]
+      ]
+    },
+    {
+      "sample_id": "test-00002",
+      "detections": 3,
+      "boxes_shape": [
+        3,
+        6
+      ],
+      "boxes_xyxy_conf_cls": [
+        [
+          68.6806640625,
+          352.863037109375,
+          256.9462890625,
+          615.740478515625,
+          0.9835032224655151,
+          0.0
+        ],
+        [
+          347.3172302246094,
+          35.78902053833008,
+          624.1093139648438,
+          287.8626403808594,
+          0.9812313914299011,
+          0.0
+        ],
+        [
+          358.3050231933594,
+          359.8861389160156,
+          604.74267578125,
+          596.373291015625,
+          0.9751078486442566,
+          0.0
+        ]
+      ],
+      "keypoints_shape": [
+        3,
+        4,
+        3
+      ],
+      "keypoints_TL_TR_BR_BL_xy_conf": [
+        [
+          [
+            62.33601379394531,
+            365.952392578125,
+            0.9998918771743774
+          ],
+          [
+            242.9884796142578,
+            354.7705993652344,
+            0.9997541308403015
+          ],
+          [
+            255.5984344482422,
+            605.1661987304688,
+            0.9941059350967407
+          ],
+          [
+            77.23065948486328,
+            611.791259765625,
+            0.9998356103897095
+          ]
+        ],
+        [
+          [
+            550.8704223632812,
+            31.52325439453125,
+            0.9596997499465942
+          ],
+          [
+            631.80126953125,
+            183.87989807128906,
+            0.9409344792366028
+          ],
+          [
+            413.7001037597656,
+            289.92352294921875,
+            0.9326614737510681
+          ],
+          [
+            339.68939208984375,
+            134.60140991210938,
+            0.9769999980926514
+          ]
+        ],
+        [
+          [
+            592.1015014648438,
+            486.3414001464844,
+            0.9464194774627686
+          ],
+          [
+            500.6202087402344,
+            588.0537719726562,
+            0.9704590439796448
+          ],
+          [
+            357.9084167480469,
+            458.7528076171875,
+            0.9233783483505249
+          ],
+          [
+            449.9974670410156,
+            358.6405334472656,
+            0.9816616177558899
+          ]
+        ]
+      ]
+    },
+    {
+      "sample_id": "test-00006",
+      "detections": 4,
+      "boxes_shape": [
+        4,
+        6
+      ],
+      "boxes_xyxy_conf_cls": [
+        [
+          62.37404251098633,
+          69.3531723022461,
+          260.4936828613281,
+          252.60841369628906,
+          0.9900022745132446,
+          0.0
+        ],
+        [
+          354.477294921875,
+          336.5808410644531,
+          612.677001953125,
+          631.9807739257812,
+          0.9812807440757751,
+          0.0
+        ],
+        [
+          354.0303649902344,
+          63.18831253051758,
+          612.422607421875,
+          269.8512878417969,
+          0.9749577045440674,
+          0.0
+        ],
+        [
+          50.08964157104492,
+          385.5323486328125,
+          274.0746154785156,
+          570.1315307617188,
+          0.9349086284637451,
+          0.0
+        ]
+      ],
+      "keypoints_shape": [
+        4,
+        4,
+        3
+      ],
+      "keypoints_TL_TR_BR_BL_xy_conf": [
+        [
+          [
+            110.54559326171875,
+            248.12646484375,
+            0.9987838864326477
+          ],
+          [
+            58.91898727416992,
+            136.9320831298828,
+            0.9952017068862915
+          ],
+          [
+            214.5725555419922,
+            59.82705307006836,
+            0.9863187074661255
+          ],
+          [
+            262.7274475097656,
+            180.9290313720703,
+            0.998428463935852
+          ]
+        ],
+        [
+          [
+            533.8983764648438,
+            631.3616943359375,
+            0.9546937942504883
+          ],
+          [
+            361.1163024902344,
+            573.9240112304688,
+            0.9897174835205078
+          ],
+          [
+            440.9732360839844,
+            335.325927734375,
+            0.9824619889259338
+          ],
+          [
+            606.9785766601562,
+            387.3309020996094,
+            0.9637317061424255
+          ]
+        ],
+        [
+          [
+            585.9449462890625,
+            59.12750244140625,
+            0.9908520579338074
+          ],
+          [
+            611.8978271484375,
+            228.7825164794922,
+            0.9627683162689209
+          ],
+          [
+            371.1276550292969,
+            268.6936950683594,
+            0.9874152541160583
+          ],
+          [
+            340.6232604980469,
+            97.80602264404297,
+            0.9920876622200012
+          ]
+        ],
+        [
+          [
+            209.225830078125,
+            379.0668029785156,
+            0.9614768028259277
+          ],
+          [
+            269.6247253417969,
+            491.5968322753906,
+            0.910279393196106
+          ],
+          [
+            106.66805267333984,
+            582.1293334960938,
+            0.952282726764679
+          ],
+          [
+            48.9466552734375,
+            466.0160827636719,
+            0.961712658405304
+          ]
+        ]
+      ]
+    }
+  ],
+  "benchmark_precision_guard": {
+    "discarded_attempt": "Earlier attempted FP16 timing failed a final dtype assertion; no result from that attempt is used",
+    "reproduction": [
+      {
+        "call": "predict(device=0,half=True)",
+        "actual_dtype": "torch.float16",
+        "backend_fp16": true,
+        "args_quantize": 16
+      },
+      {
+        "call": "predict(device=0) on same model, no precision argument",
+        "actual_dtype": "torch.float32",
+        "backend_fp16": false,
+        "args_quantize": null
+      },
+      {
+        "call": "predict(device=0,quantize=16) on same model",
+        "actual_dtype": "torch.float16",
+        "backend_fp16": true,
+        "args_quantize": 16
+      }
+    ],
+    "guard": "Pass quantize on every call and assert parameter dtype/device after every measured iteration",
+    "application_source_changed": false
+  },
+  "benchmarks": [
+    {
+      "backend": "PyTorch .pt",
+      "label": "pytorch_cpu_fp32_baseline",
+      "actual_device": "cpu",
+      "actual_dtype": "torch.float32",
+      "dtype_and_device_asserted_every_iteration": true,
+      "quantize_arg_every_call": null,
+      "warmup_count": 10,
+      "initialization_calls_excluded": 1,
+      "measured_iterations": 50,
+      "batch_size": 1,
+      "imgsz": 480,
+      "rect": false,
+      "conf": 0.25,
+      "iou": 0.7,
+      "max_det": 12,
+      "p50_ms": 28.15385000030801,
+      "p95_ms": 30.722925000009127,
+      "mean_ms": 28.393859999814595,
+      "min_ms": 25.088000000323518,
+      "max_ms": 32.913699998971424,
+      "durations_ms": [
+        32.121999998707906,
+        28.487999999924796,
+        30.076099999860162,
+        30.428999998548534,
+        28.57399999993504,
+        27.89439999833121,
+        27.143699999214732,
+        30.469100000118488,
+        28.740299998389673,
+        27.05489999971178,
+        27.49709999989136,
+        29.221199998573866,
+        28.162100001281942,
+        27.231899999605957,
+        26.83699999943201,
+        29.192800000600982,
+        27.636700000584824,
+        28.1384000008984,
+        25.088000000323518,
+        26.31680000013148,
+        28.780499998902087,
+        29.259999999339925,
+        28.159200001027784,
+        25.794900000619236,
+        27.0567999996274,
+        30.285000000731088,
+        28.594899999006884,
+        29.265299999678973,
+        29.930000000604196,
+        32.913699998971424,
+        28.14849999958824,
+        26.97260000059032,
+        27.52909999981057,
+        29.55599999950209,
+        28.14080000098329,
+        27.474799999254174,
+        27.256399998805136,
+        27.90669999922102,
+        26.314700000511948,
+        29.893900000388385,
+        27.97869999994873,
+        27.116200000818935,
+        30.460699999821372,
+        29.74290000020119,
+        26.723899998614797,
+        26.487299999644165,
+        28.868400000646943,
+        30.93059999991965,
+        28.834400000050664,
+        27.002599999832455
+      ],
+      "scene_order": [
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006"
+      ],
+      "detection_counts": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "keypoint_output_shapes": [
+        [
+          0,
+          4,
+          3
+        ],
+        [
+          1,
+          4,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ],
+        [
+          3,
+          4,
+          3
+        ],
+        [
+          4,
+          4,
+          3
+        ]
+      ],
+      "timing_scope": "perf_counter wall time of sequential high-level predict on predecoded BGR NumPy scene, preprocessing+inference+postprocessing+box/keypoint CPU copy; excludes file decode/model load/warmup; CUDA synchronized before/after each GPU iteration",
+      "limitations": "Local unisolated machine; services were not stopped; not server/WebSocket/retrieval/OCR/camera end-to-end latency, throughput, or an ONNX/TensorRT benchmark",
+      "concurrent_ui_load": true,
+      "load_label": "Local measurements with concurrent UI/browser verification load; services not stopped, no isolation"
+    },
+    {
+      "backend": "PyTorch .pt",
+      "label": "pytorch_cuda_fp32_baseline",
+      "actual_device": "cuda:0",
+      "actual_dtype": "torch.float32",
+      "dtype_and_device_asserted_every_iteration": true,
+      "quantize_arg_every_call": null,
+      "warmup_count": 10,
+      "initialization_calls_excluded": 1,
+      "measured_iterations": 50,
+      "batch_size": 1,
+      "imgsz": 480,
+      "rect": false,
+      "conf": 0.25,
+      "iou": 0.7,
+      "max_det": 12,
+      "p50_ms": 8.984599999166676,
+      "p95_ms": 12.248650000583439,
+      "mean_ms": 9.223443999835581,
+      "min_ms": 7.087799998771516,
+      "max_ms": 13.1982999992033,
+      "durations_ms": [
+        9.22059999902558,
+        10.349599999244674,
+        9.921099999701255,
+        12.291400000322028,
+        9.029900000314228,
+        7.987299999513198,
+        8.663299999170704,
+        12.19640000090294,
+        11.209999998754938,
+        12.54970000081812,
+        8.9520999990782,
+        11.464999999589054,
+        8.082400001512724,
+        10.31669999974838,
+        8.26000000051863,
+        7.193299999926239,
+        7.686499999181251,
+        9.017099999255151,
+        8.001799998964998,
+        7.846999998946558,
+        7.087799998771516,
+        10.818000000654138,
+        9.416099999725702,
+        8.021100000405568,
+        9.066499998880317,
+        8.089999999356223,
+        7.978300000104355,
+        7.808800000930205,
+        13.1982999992033,
+        10.083299999678275,
+        9.289100000387407,
+        7.946899999296875,
+        10.497200000827434,
+        10.905799999818555,
+        10.387300000729738,
+        9.465200000704499,
+        8.128800000122283,
+        7.801100000506267,
+        7.685900000069523,
+        11.46589999916614,
+        9.424499998203828,
+        7.955799999763258,
+        8.942999998907908,
+        9.888099999443511,
+        8.486799999445793,
+        7.107400000677444,
+        9.198100000503473,
+        8.583900000303402,
+        8.484100000714534,
+        7.717899999988731
+      ],
+      "scene_order": [
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006"
+      ],
+      "detection_counts": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "keypoint_output_shapes": [
+        [
+          0,
+          4,
+          3
+        ],
+        [
+          1,
+          4,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ],
+        [
+          3,
+          4,
+          3
+        ],
+        [
+          4,
+          4,
+          3
+        ]
+      ],
+      "timing_scope": "perf_counter wall time of sequential high-level predict on predecoded BGR NumPy scene, preprocessing+inference+postprocessing+box/keypoint CPU copy; excludes file decode/model load/warmup; CUDA synchronized before/after each GPU iteration",
+      "limitations": "Local unisolated machine; services were not stopped; not server/WebSocket/retrieval/OCR/camera end-to-end latency, throughput, or an ONNX/TensorRT benchmark",
+      "concurrent_ui_load": true,
+      "load_label": "Local measurements with concurrent UI/browser verification load; services not stopped, no isolation"
+    },
+    {
+      "backend": "PyTorch .pt",
+      "label": "pytorch_cuda_fp16_baseline",
+      "actual_device": "cuda:0",
+      "actual_dtype": "torch.float16",
+      "dtype_and_device_asserted_every_iteration": true,
+      "quantize_arg_every_call": 16,
+      "warmup_count": 10,
+      "initialization_calls_excluded": 1,
+      "measured_iterations": 50,
+      "batch_size": 1,
+      "imgsz": 480,
+      "rect": false,
+      "conf": 0.25,
+      "iou": 0.7,
+      "max_det": 12,
+      "p50_ms": 12.173250001069391,
+      "p95_ms": 14.908030000333381,
+      "mean_ms": 12.386638000134553,
+      "min_ms": 10.486600000149338,
+      "max_ms": 15.395800000987947,
+      "durations_ms": [
+        13.312300001416588,
+        15.296200001102989,
+        13.686300000699703,
+        14.264899999034242,
+        15.395800000987947,
+        13.06269999986398,
+        15.318499999921187,
+        13.382900000578957,
+        12.378299999909359,
+        11.502799998197588,
+        10.53190000129689,
+        12.109700001019519,
+        12.58149999921443,
+        11.288200001217774,
+        12.503199999628123,
+        10.572600000159582,
+        11.199099999430473,
+        12.526099999377038,
+        11.419200000091223,
+        12.265899998965324,
+        12.03440000062983,
+        11.258599999564467,
+        12.575100001413375,
+        14.433599999392754,
+        11.793699999543605,
+        11.803999999756343,
+        11.277499999778229,
+        11.334000000715605,
+        12.2375999999349,
+        12.579500000356347,
+        11.438199999247445,
+        12.816300000849878,
+        12.379800000417163,
+        14.005400000314694,
+        13.4182999991026,
+        10.709600001064246,
+        11.959899999055779,
+        11.52869999896211,
+        11.546600000656326,
+        13.14000000093074,
+        10.486600000149338,
+        12.079800000719843,
+        11.835899998914101,
+        13.353399999687099,
+        11.63770000130171,
+        11.73900000139838,
+        11.400299999877461,
+        13.934700000390876,
+        12.236800001119263,
+        11.75879999937024
+      ],
+      "scene_order": [
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006",
+        "test-00000",
+        "test-00001",
+        "test-00003",
+        "test-00002",
+        "test-00006"
+      ],
+      "detection_counts": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "keypoint_output_shapes": [
+        [
+          0,
+          4,
+          3
+        ],
+        [
+          1,
+          4,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ],
+        [
+          3,
+          4,
+          3
+        ],
+        [
+          4,
+          4,
+          3
+        ]
+      ],
+      "timing_scope": "perf_counter wall time of sequential high-level predict on predecoded BGR NumPy scene, preprocessing+inference+postprocessing+box/keypoint CPU copy; excludes file decode/model load/warmup; CUDA synchronized before/after each GPU iteration",
+      "limitations": "Local unisolated machine; services were not stopped; not server/WebSocket/retrieval/OCR/camera end-to-end latency, throughput, or an ONNX/TensorRT benchmark",
+      "concurrent_ui_load": true,
+      "load_label": "Local measurements with concurrent UI/browser verification load; services not stopped, no isolation"
+    }
+  ],
+  "onnx_cpu_benchmark": {
+    "status": "measured_on_current_export",
+    "backend": "Ultralytics AutoBackend / ONNX Runtime CPUExecutionProvider",
+    "cpu_comparison": [
+      {
+        "label": "pytorch_cpu_fp32_interleaved_current_onnx",
+        "model": "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+        "backend_type": "AutoBackend",
+        "runtime_provider": [
+          "PyTorch CPU"
+        ],
+        "device": "CPU",
+        "dtype": "float32",
+        "warmup": 10,
+        "iterations": 50,
+        "batch": 1,
+        "imgsz": 480,
+        "rect": false,
+        "conf": 0.25,
+        "iou": 0.7,
+        "max_det": 12,
+        "p50_ms": 40.07649999948626,
+        "p95_ms": 45.43855500032805,
+        "mean_ms": 40.48554199980572,
+        "min_ms": 34.832499997719424,
+        "max_ms": 51.28770000010263,
+        "durations_ms": [
+          41.71499999938533,
+          44.669999999314314,
+          42.94149999986985,
+          38.81179999734741,
+          40.38559999753488,
+          45.103000000381144,
+          38.65099999893573,
+          37.98539999843342,
+          44.56049999862444,
+          35.245500002929475,
+          35.27689999827999,
+          45.89249999844469,
+          34.832499997719424,
+          45.71310000028461,
+          39.472399999795016,
+          43.135799998708535,
+          41.57130000021425,
+          38.064100001065526,
+          44.572899998456705,
+          37.68169999966631,
+          35.10599999935948,
+          38.47229999882984,
+          42.8554999998596,
+          44.19219999908819,
+          36.36999999798718,
+          42.95519999868702,
+          37.677199998142896,
+          39.133900001615984,
+          51.28770000010263,
+          41.72570000082487,
+          43.77720000047702,
+          37.207700002909405,
+          35.870399999112124,
+          44.23840000163182,
+          39.25860000163084,
+          37.73460000229534,
+          40.169799998693634,
+          37.44369999913033,
+          39.983200000278885,
+          39.29509999943548,
+          42.15210000256775,
+          39.64579999956186,
+          40.19490000064252,
+          35.72820000044885,
+          41.99449999941862,
+          42.1745000021474,
+          36.806500000238884,
+          37.96700000020792,
+          41.628099999797996,
+          44.94859999977052
+        ],
+        "scene_order": [
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006"
+        ],
+        "timing_scope": "Interleaved high-level predict on predecoded BGR arrays; includes preprocessing, inference, postprocessing and output materialization; excludes image decode, model loading and warmup.",
+        "concurrent_ui_load": true,
+        "load_context": "UI/browser left concurrently active. Main-session owner reports 101 fake-source browser frames, processing p50/p95 70.18/112.17ms and roundtrip p50/p95 84/127ms; different measurement scope.",
+        "limitations": "Single unisolated local machine; not endpoint, WebSocket, retrieval/OCR, camera end-to-end latency or throughput."
+      },
+      {
+        "label": "onnx_cpu_fp32_interleaved_current_artifact",
+        "model": "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.onnx",
+        "backend_type": "AutoBackend",
+        "runtime_provider": [
+          "CPUExecutionProvider"
+        ],
+        "device": "CPU",
+        "dtype": "float32",
+        "warmup": 10,
+        "iterations": 50,
+        "batch": 1,
+        "imgsz": 480,
+        "rect": false,
+        "conf": 0.25,
+        "iou": 0.7,
+        "max_det": 12,
+        "p50_ms": 22.16814999883354,
+        "p95_ms": 26.601374998972457,
+        "mean_ms": 22.461705999739934,
+        "min_ms": 16.550200001802295,
+        "max_ms": 33.37459999966086,
+        "durations_ms": [
+          19.957600001362152,
+          23.240000002260786,
+          33.37459999966086,
+          24.68600000065635,
+          22.04150000034133,
+          21.970300000248244,
+          23.84359999996377,
+          19.725199999811593,
+          22.64840000134427,
+          22.737499999493593,
+          24.99559999705525,
+          20.989999997254927,
+          21.84330000090995,
+          22.94170000095619,
+          24.79250000033062,
+          29.4311999969068,
+          22.082199997385032,
+          18.896699999459088,
+          22.25410000028205,
+          19.13540000168723,
+          20.84850000028382,
+          20.30200000081095,
+          21.887400002015056,
+          23.400499998388113,
+          19.236100000853185,
+          21.44860000043991,
+          21.103899998706765,
+          23.01889999944251,
+          21.582500001386506,
+          19.664100000227336,
+          23.743299996567657,
+          23.774100001901388,
+          22.059499999159016,
+          17.53390000158106,
+          27.38369999860879,
+          22.855400002299575,
+          21.73150000089663,
+          25.316199997178046,
+          22.606899998208974,
+          19.102799997199327,
+          25.645199999416946,
+          16.550200001802295,
+          24.68379999845638,
+          24.19479999662144,
+          19.250699999247445,
+          22.62969999719644,
+          24.582599999121157,
+          23.816000000806525,
+          19.483200001559453,
+          22.061899999243906
+        ],
+        "scene_order": [
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006",
+          "test-00000",
+          "test-00001",
+          "test-00003",
+          "test-00002",
+          "test-00006"
+        ],
+        "timing_scope": "Interleaved high-level predict on predecoded BGR arrays; includes preprocessing, inference, postprocessing and output materialization; excludes image decode, model loading and warmup.",
+        "concurrent_ui_load": true,
+        "load_context": "UI/browser left concurrently active. Main-session owner reports 101 fake-source browser frames, processing p50/p95 70.18/112.17ms and roundtrip p50/p95 84/127ms; different measurement scope.",
+        "limitations": "Single unisolated local machine; not endpoint, WebSocket, retrieval/OCR, camera end-to-end latency or throughput."
+      }
+    ],
+    "warmup": 10,
+    "iterations": 50,
+    "input": {
+      "shape": [
+        1,
+        3,
+        480,
+        480
+      ],
+      "dtype": "float32"
+    },
+    "scenes": [
+      {
+        "sample_id": "test-00000",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\90ef14899ac641ef6ade16b37a9f28f74b82a0384b2f579e418e039e989e2eea.jpg",
+        "sha256": "04895c235373cd8ef6caade5b83f0d608b71e7f877a8b14c8b38572db7a5d46d",
+        "labeled_objects": 0,
+        "source_kind": "synthetic_catalog_scene"
+      },
+      {
+        "sample_id": "test-00001",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\4bf33a9ea9989e8c812068c0eff2ff4a39d6b882afb79b824781cf9eb3ba615b.jpg",
+        "sha256": "53f1e0ebbacca10ecab2b7c0b7eec1f6c59707fef6fa90b3bb5ac1ed1f8026a5",
+        "labeled_objects": 1,
+        "source_kind": "synthetic_catalog_scene"
+      },
+      {
+        "sample_id": "test-00003",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\afca6e94faee1177a7ba2ed068bdf61f22f7a368ed31ac099592c0437831ce03.jpg",
+        "sha256": "e27cce557491edaf08e63d5e488a95e62788d4f2008b434e99582cb0dbbfda3a",
+        "labeled_objects": 2,
+        "source_kind": "synthetic_catalog_scene"
+      },
+      {
+        "sample_id": "test-00002",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ca55085e309ba5c02591bdc7bbd5f75c6d778e9834d3dafaf0bb2d75c5903aab.jpg",
+        "sha256": "83e5389ef32796f9d7bd6d2f50c911cb0df967e0a5915fb7abeccd190c5f87a6",
+        "labeled_objects": 3,
+        "source_kind": "synthetic_catalog_scene"
+      },
+      {
+        "sample_id": "test-00006",
+        "path": "data\\datasets\\cards-pose-synthetic-v1\\images\\test\\ee7107323bcfca63b70d6f2f8829a9724456a3d93628998406718cd03c4ff526.jpg",
+        "sha256": "f81218cce3474f7d4901f930632392f10aea24076ac9b118ce01404aefb479a7",
+        "labeled_objects": 4,
+        "source_kind": "synthetic_catalog_scene"
+      }
+    ],
+    "concurrent_ui_load": true,
+    "load_context": "PkmLens UI/browser left concurrent. Main-session values (101 fake-source frames; processing 70.18/112.17 ms p50/p95; roundtrip 84/127 ms p50/p95) are separate scope.",
+    "measurement_comparison": "PyTorch .pt and the just-exported ONNX artifact were interleaved across identical inputs and prediction settings, same CPU, with actual CPU provider/device asserted.",
+    "current_onnx_sha256": "f2f4573a202a22b1c72490c666e3640fe3ab5b1d162b2e8304deaefdf1163fde",
+    "actual_dependencies": {
+      "onnx": "1.23.2",
+      "ml_dtypes": "0.7.0",
+      "onnxruntime": "1.32.0",
+      "protobuf": "7.36.2"
+    },
+    "runtime_provider": "CPUExecutionProvider"
+  },
+  "tensorrt": {
+    "status": "unavailable",
+    "python_module": false,
+    "trtexec": false,
+    "engine": false,
+    "p50_ms": null,
+    "p95_ms": null,
+    "reason": "No TensorRT runtime/CLI/engine available on this host."
+  },
+  "production_pose_inference_audit": {
+    "registered_backend_effectively_pt_only": true,
+    "evidence": [
+      {
+        "path": "services/ai/cardlens_ai/training.py",
+        "line": 396,
+        "observation": "activate_pose calls verify_pose_checkpoint before registry write"
+      },
+      {
+        "path": "services/ai/cardlens_ai/detection.py",
+        "line": 105,
+        "observation": "verify_pose_checkpoint explicitly rejects suffixes other than .pt"
+      },
+      {
+        "path": "services/ai/cardlens_ai/detection.py",
+        "line": 95,
+        "observation": "_verify_pose_schema reads native model/architecture task and kpt_shape"
+      },
+      {
+        "path": "services/ai/cardlens_ai/detection.py",
+        "line": 140,
+        "observation": "detect_pose uses YOLO .predict and FP16 requested on CUDA; no ONNX/TensorRT engine selection path provided"
+      }
+    ],
+    "observation": "An exported ONNX or TensorRT artifact is not wired into the supported pose activation path; no inference backend added",
+    "changes_made": false
+  },
+  "preservation": {
+    "initial_pre_export_key_hashes": {
+      "weights/best.pt": "7a1fdb0724b671f46d1133d12f1f2fbef8f54c03669a8112d34baa24231b897b",
+      "weights/last.pt": "2c95ae211486c9f51621c45616d434eb573ad612ec9cb7344544429a578baed7",
+      "weights/resume.pt": "3a32632390f3c812440762d5b5e3701d06ff4ac7a200380043f99b8f683771a1",
+      "pose-config.json": "8d2b85387f023cbc6560ce35225cbc11f9b36334469f3aa08afafafcbe703cd2",
+      "pose-result.json": "c060f91ae6a5aa3435e338730bb213da539d5ec10c1e37a5869e91294edf3180",
+      "pose-status.json": "c060f91ae6a5aa3435e338730bb213da539d5ec10c1e37a5869e91294edf3180"
+    },
+    "before": {
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt": {
+        "sha256": "7a1fdb0724b671f46d1133d12f1f2fbef8f54c03669a8112d34baa24231b897b",
+        "bytes": 5988910
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch0.pt": {
+        "sha256": "2fabe28bc95ce6fefad3b9827545d210c34e11097b799d7713dabcfb21a70174",
+        "bytes": 28647950
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch1.pt": {
+        "sha256": "bfaeefa05647b0fd0162b67f57c9b4358ae11b0292262e94f5cd86c0ed0748cc",
+        "bytes": 28648142
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch10.pt": {
+        "sha256": "5f428ec09ada5af99525fe6751be93afe85de9078cc6bd58cbd783d73e0aadad",
+        "bytes": 28650062
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch11.pt": {
+        "sha256": "53bd1aee36ea0606fb79afe76a9500031fb5cae810819ea30dbb0638cc30a500",
+        "bytes": 28650254
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch12.pt": {
+        "sha256": "84e4a95009c66f7410bc70589ee4c85990c792edb6d5c2331ed8da54724c2093",
+        "bytes": 28650510
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch13.pt": {
+        "sha256": "eb6793c320dfb482996fd8492d5aef6ba71022c2a87cd3289b248aa80b13862f",
+        "bytes": 28650702
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch14.pt": {
+        "sha256": "0805a6d19e1d0d22e3102be63f04a7c1b5e6e8d6ab1dc3ec08b8717328d01e7a",
+        "bytes": 28650894
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch15.pt": {
+        "sha256": "fa86ca21acfb3d12c2585496a5b569c664646f2c5e0faa010d4b5275c78514c1",
+        "bytes": 28651150
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch16.pt": {
+        "sha256": "ae5e19758cc0a1d7abc860eca5ddfd6b31d2416af359620eace2d7e6f003d214",
+        "bytes": 28651342
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch17.pt": {
+        "sha256": "b3251f71a61caf818b6173a0daa83161b6735b19e5f4ff9a8c0ee6dca6c2a4ec",
+        "bytes": 28651534
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch18.pt": {
+        "sha256": "2293950d755c355c6635f4512d80bfe5824a383a2cc22efdb145d589dd9a5f7b",
+        "bytes": 28651726
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch19.pt": {
+        "sha256": "1fb5c7442ef4b1ff4aee445ce6666eea774a5f1262ab86ddebb43b69d1df2d3d",
+        "bytes": 28651982
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch2.pt": {
+        "sha256": "d1e90bc23bb9c1b1b638cb01b1ad8368c6c0fe162eab4b7ad27ee1132dbd4beb",
+        "bytes": 28648398
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch20.pt": {
+        "sha256": "a07cf9fd61a49b00ca4aab8a759310f2c9d8b551a173e5e1ddd093fd19724a5a",
+        "bytes": 28652174
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch21.pt": {
+        "sha256": "9dbb4a50131522f4d44113d1c2f89cc1f2c345c78a4e62b30caf84e22bffc2af",
+        "bytes": 28652366
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch22.pt": {
+        "sha256": "407a325c549435ac97892dd8b4a052f7b0f41b20f707e151009d19323e1dac78",
+        "bytes": 28652622
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch23.pt": {
+        "sha256": "a7f8602ccb1f7483d3deab67be3e9d4bee67c66106c734fe2681f32ad9e31718",
+        "bytes": 28652814
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch24.pt": {
+        "sha256": "3a32632390f3c812440762d5b5e3701d06ff4ac7a200380043f99b8f683771a1",
+        "bytes": 28653006
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch3.pt": {
+        "sha256": "f49c79fce3f17b0418c10f02fb123f2df3b2876933b3214d91579adec20ec968",
+        "bytes": 28648590
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch4.pt": {
+        "sha256": "9650c38f981ac2e8061f50cb8973925d2f821eb35272593d346b214f01e8c7fd",
+        "bytes": 28648782
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch5.pt": {
+        "sha256": "a69313ab7d05c98b774715cdb2e4ba45377ea4ee8033a7d5c29230e7742b6661",
+        "bytes": 28649038
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch6.pt": {
+        "sha256": "2c50a7a2624c953b5a05099ad10492bc86c58208d65366117264cd73e2220229",
+        "bytes": 28649230
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch7.pt": {
+        "sha256": "816d2d2a8fe1dec69f22c5fd8d41473b8cbea1d1c817043c764327222a4569ac",
+        "bytes": 28649422
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch8.pt": {
+        "sha256": "88521d86777c35de95ee5774f3c72f134b277a79e72cd7fd409e16c5864ae743",
+        "bytes": 28649614
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch9.pt": {
+        "sha256": "0f078a6a3956f22f586f9728f563896316e99847b235c2905ca2134fc26d904a",
+        "bytes": 28649870
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\last.pt": {
+        "sha256": "2c95ae211486c9f51621c45616d434eb573ad612ec9cb7344544429a578baed7",
+        "bytes": 5988910
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\resume.pt": {
+        "sha256": "3a32632390f3c812440762d5b5e3701d06ff4ac7a200380043f99b8f683771a1",
+        "bytes": 28653006
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\pose-config.json": {
+        "sha256": "8d2b85387f023cbc6560ce35225cbc11f9b36334469f3aa08afafafcbe703cd2",
+        "bytes": 1256
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\pose-result.json": {
+        "sha256": "c060f91ae6a5aa3435e338730bb213da539d5ec10c1e37a5869e91294edf3180",
+        "bytes": 2097
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\pose-status.json": {
+        "sha256": "c060f91ae6a5aa3435e338730bb213da539d5ec10c1e37a5869e91294edf3180",
+        "bytes": 2097
+      }
+    },
+    "after": {
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt": {
+        "sha256": "7a1fdb0724b671f46d1133d12f1f2fbef8f54c03669a8112d34baa24231b897b",
+        "bytes": 5988910
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch0.pt": {
+        "sha256": "2fabe28bc95ce6fefad3b9827545d210c34e11097b799d7713dabcfb21a70174",
+        "bytes": 28647950
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch1.pt": {
+        "sha256": "bfaeefa05647b0fd0162b67f57c9b4358ae11b0292262e94f5cd86c0ed0748cc",
+        "bytes": 28648142
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch10.pt": {
+        "sha256": "5f428ec09ada5af99525fe6751be93afe85de9078cc6bd58cbd783d73e0aadad",
+        "bytes": 28650062
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch11.pt": {
+        "sha256": "53bd1aee36ea0606fb79afe76a9500031fb5cae810819ea30dbb0638cc30a500",
+        "bytes": 28650254
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch12.pt": {
+        "sha256": "84e4a95009c66f7410bc70589ee4c85990c792edb6d5c2331ed8da54724c2093",
+        "bytes": 28650510
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch13.pt": {
+        "sha256": "eb6793c320dfb482996fd8492d5aef6ba71022c2a87cd3289b248aa80b13862f",
+        "bytes": 28650702
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch14.pt": {
+        "sha256": "0805a6d19e1d0d22e3102be63f04a7c1b5e6e8d6ab1dc3ec08b8717328d01e7a",
+        "bytes": 28650894
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch15.pt": {
+        "sha256": "fa86ca21acfb3d12c2585496a5b569c664646f2c5e0faa010d4b5275c78514c1",
+        "bytes": 28651150
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch16.pt": {
+        "sha256": "ae5e19758cc0a1d7abc860eca5ddfd6b31d2416af359620eace2d7e6f003d214",
+        "bytes": 28651342
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch17.pt": {
+        "sha256": "b3251f71a61caf818b6173a0daa83161b6735b19e5f4ff9a8c0ee6dca6c2a4ec",
+        "bytes": 28651534
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch18.pt": {
+        "sha256": "2293950d755c355c6635f4512d80bfe5824a383a2cc22efdb145d589dd9a5f7b",
+        "bytes": 28651726
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch19.pt": {
+        "sha256": "1fb5c7442ef4b1ff4aee445ce6666eea774a5f1262ab86ddebb43b69d1df2d3d",
+        "bytes": 28651982
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch2.pt": {
+        "sha256": "d1e90bc23bb9c1b1b638cb01b1ad8368c6c0fe162eab4b7ad27ee1132dbd4beb",
+        "bytes": 28648398
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch20.pt": {
+        "sha256": "a07cf9fd61a49b00ca4aab8a759310f2c9d8b551a173e5e1ddd093fd19724a5a",
+        "bytes": 28652174
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch21.pt": {
+        "sha256": "9dbb4a50131522f4d44113d1c2f89cc1f2c345c78a4e62b30caf84e22bffc2af",
+        "bytes": 28652366
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch22.pt": {
+        "sha256": "407a325c549435ac97892dd8b4a052f7b0f41b20f707e151009d19323e1dac78",
+        "bytes": 28652622
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch23.pt": {
+        "sha256": "a7f8602ccb1f7483d3deab67be3e9d4bee67c66106c734fe2681f32ad9e31718",
+        "bytes": 28652814
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch24.pt": {
+        "sha256": "3a32632390f3c812440762d5b5e3701d06ff4ac7a200380043f99b8f683771a1",
+        "bytes": 28653006
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch3.pt": {
+        "sha256": "f49c79fce3f17b0418c10f02fb123f2df3b2876933b3214d91579adec20ec968",
+        "bytes": 28648590
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch4.pt": {
+        "sha256": "9650c38f981ac2e8061f50cb8973925d2f821eb35272593d346b214f01e8c7fd",
+        "bytes": 28648782
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch5.pt": {
+        "sha256": "a69313ab7d05c98b774715cdb2e4ba45377ea4ee8033a7d5c29230e7742b6661",
+        "bytes": 28649038
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch6.pt": {
+        "sha256": "2c50a7a2624c953b5a05099ad10492bc86c58208d65366117264cd73e2220229",
+        "bytes": 28649230
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch7.pt": {
+        "sha256": "816d2d2a8fe1dec69f22c5fd8d41473b8cbea1d1c817043c764327222a4569ac",
+        "bytes": 28649422
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch8.pt": {
+        "sha256": "88521d86777c35de95ee5774f3c72f134b277a79e72cd7fd409e16c5864ae743",
+        "bytes": 28649614
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\epoch9.pt": {
+        "sha256": "0f078a6a3956f22f586f9728f563896316e99847b235c2905ca2134fc26d904a",
+        "bytes": 28649870
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\last.pt": {
+        "sha256": "2c95ae211486c9f51621c45616d434eb573ad612ec9cb7344544429a578baed7",
+        "bytes": 5988910
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\resume.pt": {
+        "sha256": "3a32632390f3c812440762d5b5e3701d06ff4ac7a200380043f99b8f683771a1",
+        "bytes": 28653006
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\pose-config.json": {
+        "sha256": "8d2b85387f023cbc6560ce35225cbc11f9b36334469f3aa08afafafcbe703cd2",
+        "bytes": 1256
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\pose-result.json": {
+        "sha256": "c060f91ae6a5aa3435e338730bb213da539d5ec10c1e37a5869e91294edf3180",
+        "bytes": 2097
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\pose-status.json": {
+        "sha256": "c060f91ae6a5aa3435e338730bb213da539d5ec10c1e37a5869e91294edf3180",
+        "bytes": 2097
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.onnx": {
+        "sha256": "f2f4573a202a22b1c72490c666e3640fe3ab5b1d162b2e8304deaefdf1163fde",
+        "bytes": 10167234
+      },
+      "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.manifest.json": {
+        "sha256": "ae5eecd694397304fcad63f3dbbcfff3aa30cf43f760d0b113b5c0d758d420b2",
+        "bytes": 336
+      }
+    },
+    "all_checkpoint_and_resume_and_run_state_bytes_unchanged": true
+  },
+  "conclusion": "Main-provided project-local onnx 1.23.2 and ml_dtypes 0.7.0 enable actual offline export; graph checking and CPU Runtime inference passed. Five CLI comparisons against the current ONNX artifact all pass on selected synthetic test scenes (four positive detections, one empty agreement only). Compare defect fix is regression-tested. No dependencies were installed by this worker and CardLens environment remains unchanged. TensorRT is unavailable; no activation or real-camera accuracy claim.",
+  "finished_at_utc": "2026-11-18T13:25:46.037029+00:00",
+  "project_dependency_retries": [
+    {
+      "checked_at_utc": "2026-11-18T13:30:00.315966+00:00",
+      "PYTHONPATH": "data/verification-deps/onnx;services/core-api;services/ai;.",
+      "project_onnx_version": "1.23.2",
+      "project_onnx_distribution": "D:\\Project\\PkmLens\\data\\verification-deps\\onnx",
+      "project_onnx_requires": [
+        "numpy>=1.23.2",
+        "protobuf>=6.31.1",
+        "typing_extensions>=4.7.1",
+        "ml_dtypes>=0.5.4",
+        "Pillow>=12.2.0; extra == \"reference\""
+      ],
+      "imports": {
+        "onnx": {
+          "import": "failed",
+          "error": "ModuleNotFoundError: No module named 'ml_dtypes'"
+        },
+        "onnxruntime": {
+          "import": "ok",
+          "file": "D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\onnxruntime\\__init__.py",
+          "version": "1.32.0"
+        },
+        "google.protobuf": {
+          "import": "ok",
+          "file": "D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\google\\protobuf\\__init__.py",
+          "version": "7.36.2"
+        },
+        "ml_dtypes": {
+          "import": "failed",
+          "error": "ModuleNotFoundError: No module named 'ml_dtypes'"
+        },
+        "typing_extensions": {
+          "import": "ok",
+          "file": "C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\typing_extensions.py",
+          "version": null
+        }
+      },
+      "export_command": [
+        "D:\\Project\\CardLens\\.venv-yolo\\Scripts\\python.exe",
+        "-m",
+        "ml.train_pose",
+        "export",
+        "--checkpoint",
+        "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+        "--imgsz",
+        "480",
+        "--device",
+        "cpu"
+      ],
+      "exit_code": 1,
+      "stdout": "Ultralytics 8.4.214  Python-3.12.10 torch-2.14.1+cu126 CPU (12th Gen Intel Core i3-12100F)\nYOLO26n-card-pose summary (fused): 130 layers, 2,482,051 parameters, 0 gradients, 3.2 GFLOPs\n\n\u001b[34m\u001b[1mPyTorch:\u001b[0m starting from 'D:\\Project\\PkmLens\\data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt' with input shape (1, 3, 480, 480) BCHW and output shape(s) (1, 17, 4725) (5.7 MB)\nERROR \u001b[34m\u001b[1mONNX:\u001b[0m export failure 0.0s: No module named 'ml_dtypes'\nExport to ONNX in the cloud with Ultralytics Platform: https://platform.ultralytics.com\n",
+      "stderr": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"D:\\Project\\PkmLens\\ml\\train_pose.py\", line 451, in <module>\n    main()\n  File \"D:\\Project\\PkmLens\\ml\\train_pose.py\", line 426, in main\n    output = Path(model.export(format=\"onnx\", imgsz=args.imgsz, device=device,\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\ultralytics\\engine\\model.py\", line 798, in export\n    return Exporter(overrides=args, _callbacks=self.callbacks)(model=self.model)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\ultralytics\\engine\\exporter.py\", line 1085, in __call__\n    f = getattr(self, f\"export_{fmt}\")()\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\ultralytics\\engine\\exporter.py\", line 562, in outer_func\n    f = inner_func(*args, **kwargs)  # exported file/dir or tuple of (file/dir, *)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Project\\CardLens\\.venv-yolo\\Lib\\site-packages\\ultralytics\\engine\\exporter.py\", line 1194, in export_onnx\n    import onnx\n  File \"D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\onnx\\__init__.py\", line 142, in <module>\n    from onnx import (\n  File \"D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\onnx\\compose.py\", line 8, in <module>\n    from onnx import (\n  File \"D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\onnx\\helper.py\", line 18, in <module>\n    from onnx import _mapping, defs\n  File \"D:\\Project\\PkmLens\\data\\verification-deps\\onnx\\onnx\\_mapping.py\", line 8, in <module>\n    import ml_dtypes\nModuleNotFoundError: No module named 'ml_dtypes'\n",
+      "blocking_dependency": "ml_dtypes>=0.5.4",
+      "installed_any_dependency_by_this_worker": false,
+      "next_action": "Main may install a compatible ml_dtypes>=0.5.4 wheel into the same project-only target using --no-deps, then retry import/export",
+      "artifact_exists": false
+    }
+  ],
+  "main_browser_measurement_context": {
+    "source": "Owner/main-session values relayed by caller; not independently recreated",
+    "frames": 101,
+    "source_label": "F10:1 fake source",
+    "processing_p50_ms": 70.18,
+    "processing_p95_ms": 112.17,
+    "roundtrip_p50_ms": 84,
+    "roundtrip_p95_ms": 127,
+    "scope": "Browser fake-source processing/roundtrip, distinct from PyTorch/ONNX model prediction timings; no physical camera accuracy."
+  },
+  "updated_at_utc": "2026-11-18T14:03:40.502840+00:00",
+  "export_artifact": {
+    "path": "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.onnx",
+    "sha256": "f2f4573a202a22b1c72490c666e3640fe3ab5b1d162b2e8304deaefdf1163fde",
+    "bytes": 10167234,
+    "manifest_path": "data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.manifest.json",
+    "manifest": {
+      "checkpoint": "D:\\Project\\PkmLens\\data\\training\\pose-yolo26n-synthetic-v1\\weights\\best.pt",
+      "checkpoint_sha256": "7a1fdb0724b671f46d1133d12f1f2fbef8f54c03669a8112d34baa24231b897b",
+      "onnx_sha256": "f2f4573a202a22b1c72490c666e3640fe3ab5b1d162b2e8304deaefdf1163fde",
+      "imgsz": 480,
+      "validated_after_export": false
+    },
+    "onnx_checker": "passed",
+    "ir_version": 8,
+    "opsets": [
+      {
+        "domain": "",
+        "version": 18
+      }
+    ],
+    "inputs": [
+      {
+        "name": "images",
+        "shape": [
+          1,
+          3,
+          480,
+          480
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output0",
+        "shape": [
+          1,
+          17,
+          4725
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "providers": [
+      "CPUExecutionProvider"
+    ],
+    "schema": "pose; class pokemon_card; kpt_shape [4,3]; TL/TR/BR/BL"
+  },
+  "compare_cli_fix": {
+    "files": [
+      "ml/train_pose.py",
+      "tests/test_pose_training.py"
+    ],
+    "reproduced_issues": [
+      "Row-order compare rejected reordered equivalent predictions.",
+      "Compare accepted 20px box drift and corrupted detection/keypoint confidences."
+    ],
+    "fix": "One-to-one maximum-IoU same-class association; box/corner coordinate and confidence parity; validate finite values, class, score ranges, keypoint schema and equal counts; explicit empty agreement only.",
+    "thresholds": {
+      "minimum_box_iou": 0.9,
+      "coordinate_difference_px_exclusive": 2.0,
+      "confidence_difference_exclusive": 0.01
+    },
+    "test_cases": [
+      "reordered predictions accepted",
+      "box and corner coordinate drift rejected",
+      "detection/keypoint confidence drift rejected",
+      "unmatched/count/class/schema/range/nonfinite failures rejected",
+      "both empty yields empty-agreement status"
+    ],
+    "focused_tests": {
+      "command": "pytest tests/test_pose_training.py -q -p no:cacheprovider",
+      "passed": 45
+    },
+    "related_tests": {
+      "command": "pytest tests/test_pose_training.py tests/test_pose_runtime.py tests/test_pose_api.py tests/test_desktop_pose.py -q -p no:cacheprovider",
+      "passed": 99,
+      "passed_subtests": 19
+    },
+    "full_suite": {
+      "command": "pytest -q -p no:cacheprovider",
+      "passed": 365,
+      "passed_subtests": 19,
+      "duration_seconds": 105.03
+    }
+  },
+  "onnx_heldout_test": {
+    "status": "passed",
+    "split": "test",
+    "images": 100,
+    "objects": 237,
+    "provider": "CPUExecutionProvider",
+    "requested_batch": 4,
+    "effective_batch": 1,
+    "imgsz": 480,
+    "inference_ms_per_image": 19.1,
+    "metrics": {
+      "metrics/precision(P)": 0.9997979334410113,
+      "metrics/recall(P)": 1.0,
+      "metrics/mAP50(P)": 0.995,
+      "metrics/mAP50-95(P)": 0.994704641350211
+    },
+    "scope": "synthetic held-out localization only",
+    "details": "reports/onnx-heldout-test.json"
+  },
+  "active_backend": {
+    "production_inference": "trusted .pt only",
+    "onnx_export": "verified synthetic CPU parity and held-out test",
+    "production_onnx_runtime": "not integrated",
+    "tensorrt_runtime": "unavailable"
+  },
+  "limitations": [
+    "No physical-camera evaluation. Synthetic metrics do not establish camera accuracy.",
+    "Static ONNX batch is 1.",
+    "Project-local ONNX dependency target is required for reproduction.",
+    "TensorRT unavailable."
+  ]
+}

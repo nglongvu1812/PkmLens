@@ -1,0 +1,19 @@
+{
+  "source": "synthetic scene through fake camera; real YOLO inference",
+  "physicalCamera": false,
+  "fixture": "data/evaluation/camera.y4m",
+  "detector": "bbox",
+  "identity": "Charizard ex, Obsidian Flames #223",
+  "verifiedThreeFrames": true,
+  "confirmationMs": 5342,
+  "frames": 24,
+  "preview": "LIVE CAMERA\nPreview 10.0 FPS · AI 10.2 updates/s",
+  "processingMs": {
+    "p50": 55.64,
+    "p95": 182.2,
+    "includesColdStart": true
+  },
+  "pauseResume": true,
+  "stoppedMedia": true,
+  "errors": []
+}

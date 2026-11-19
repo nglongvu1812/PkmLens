@@ -1,0 +1,19 @@
+{
+  "source": "synthetic scene through Chromium fake camera; real trained YOLO26n pose, ByteTrack, warp, DINOv2/FAISS and OCR",
+  "physicalCamera": false,
+  "model": "pose-yolo26n-synthetic-v1",
+  "identity": "Charizard ex #223",
+  "confirmations": 3,
+  "frames": 109,
+  "confirmationMs": 18241,
+  "processingMs": {
+    "p50": 77.32,
+    "p95": 122.08,
+    "includesColdStart": true
+  },
+  "preview": "Preview 30.4 FPS; AI 6.3 updates/s",
+  "diagnostic": "\u0110o c\u1ee5c b\u1ed9 \u00b7 phi\u00ean qu\u00e9t hi\u1ec7n t\u1ea1i\n\n100 m\u1eabu g\u1ea7n nh\u1ea5t (t\u1ed1i \u0111a 600, c\u00f9ng c\u1ea5u h\u00ecnh) \u00b7 AI roundtrip p50 84 ms / p95 127 ms \u00b7 detector + track p50 70 ms / p95 112 ms.\n\nRoundtrip: t\u1eeb l\u00fac g\u1eedi JPEG \u0111\u1ebfn k\u1ebft qu\u1ea3 frame; kh\u00f4ng g\u1ed9p OCR/identity b\u1ea5t \u0111\u1ed3ng b\u1ed9. Preview FPS v\u00e0 detector + track l\u00e0 s\u1ed1 \u0111o ri\u00eang. Kh\u00f4ng ph\u1ea3i ki\u1ec3m ch\u1ee9ng \u0111\u1ed9 ch\u00ednh x\u00e1c camera th\u1eadt.\n\n20:27:32 Source starting: camera\n20:27:32 Configuration requested #1 / pose\n20:27:32 Configuration accepted #1",
+  "errors": [],
+  "fixture": "data/evaluation/camera-30fps.y4m",
+  "note": "Synthetic still-scene video played at 30 FPS; not physical-camera accuracy."
+}

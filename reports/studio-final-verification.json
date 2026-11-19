@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-18",
+  "scope": [
+    "desktop/trainer.py",
+    "tests/test_desktop_pose.py"
+  ],
+  "outcome": "passed",
+  "fixes": [
+    "Shared results tab has explicit Pose evaluation action and readonly val/test selector, default test.",
+    "Runs existing ml.train_pose evaluate child with selected run dataset, checkpoint, batch, imgsz and device.",
+    "Each evaluation uses evaluations/<split>-<uuid>/; existing top-level reports and training artifacts are not overwritten.",
+    "Busy workers, invalid configurations and checkpoints outside selected run are rejected.",
+    "Completion never reselects the run; callback/report errors release worker references and keep drain scheduled.",
+    "Reads completed top-level or latest separate pose-evaluation.json, labels validation/held-out test and synthetic sources separately from training validation gate.",
+    "Standalone evaluation directories are recognized as Pose without inventing a training validation gate."
+  ],
+  "verification": {
+    "cli_help": "python -m ml.train_pose evaluate --help: passed; CLI implementation read.",
+    "regressions_before_patch": "Missing action/report-reader failures reproduced before implementation.",
+    "focused_tests": "28 passed, 19 subtests passed",
+    "test_command": "D:/Project/CardLens/.venv-yolo/Scripts/python.exe -m pytest tests/test_desktop_pose.py -q",
+    "smoke": "desktop/trainer.py --smoke: passed",
+    "environment": "PYTHONPATH=D:/Project/PkmLens/services/core-api;D:/Project/PkmLens/services/ai;D:/Project/PkmLens",
+    "visual": {
+      "method": "PIL ImageGrab.grab(window=Tk HWND); screenshots actually inspected.",
+      "sizes": [
+        [
+          1120,
+          780
+        ],
+        [
+          940,
+          680
+        ]
+      ],
+      "tabs": [
+        "Pose",
+        "Results"
+      ],
+      "keyboard": "Evaluation and Pose resume controls scroll into view on focus at 940x680; asserted fully inside canvas.",
+      "capture_directory": "C:\\Users\\Admin\\AppData\\Local\\Temp\\opencode\\pkmlens-studio-heldout-audit",
+      "note": "At 940x680 results evaluation controls are below the chart in the existing scroll area.",
+      "fixture": "Separate temporary synthetic UI fixture used only for report-label rendering; no measured ML metric claimed."
+    }
+  },
+  "not_run": [
+    "Model activation",
+    "Process restarts",
+    "Installations",
+    "Commit/deployment"
+  ],
+  "protected_path": "data/training/pose-yolo26n-synthetic-v1/pose-evaluation.json",
+  "protected_path_policy": "No evaluation command was run and no write was made to the protected path.",
+  "remaining_limit": "Real camera accuracy is not established by synthetic split evaluation.",
+  "parent_session_verification": {
+    "heldout_pose_test": "data/training/pose-yolo26n-synthetic-v1/heldout-test/pose-evaluation.json",
+    "result": "completed on synthetic test split; metrics in reports/verification.md",
+    "full_test_suite": "370 passed, 19 subtests passed"
+  }
+}

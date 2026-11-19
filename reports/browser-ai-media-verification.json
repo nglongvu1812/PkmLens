@@ -1,0 +1,276 @@
+{
+  "startedAt": "2026-11-18T14:16:13.108Z",
+  "source": "Synthetic repeated camera-scene.jpg via local file controls; unmodified scan WebSocket and active real AI inference",
+  "physicalCamera": false,
+  "websocketInterception": false,
+  "syntheticRepeatedFrames": true,
+  "fixture": {
+    "status": "generated",
+    "path": "data/evaluation/ai-media-repeated-scene.mp4",
+    "container": "MP4",
+    "codec": "video/mp4;codecs=avc1.42001f",
+    "bytes": 629342,
+    "durationMs": 30072,
+    "targetDurationMs": 30000,
+    "targetFps": 30,
+    "width": 360,
+    "height": 480,
+    "recorderCallbacks": 10,
+    "generation": "Chrome MediaRecorder canvas crop x=300,y=120,w=360,h=480 from camera-scene.jpg repeated at 30 fps; synthetic, not independent footage",
+    "crop": {
+      "x": 300,
+      "y": 120,
+      "width": 360,
+      "height": 480,
+      "source": "data/evaluation/camera-scene.jpg"
+    }
+  },
+  "runtime": {
+    "platform": "win32",
+    "node": "v24.21.0",
+    "chrome": "157.0.8103.79"
+  },
+  "hardware": {
+    "apiCudaAvailable": true,
+    "apiDevice": "NVIDIA GeForce GTX 1660 Ti",
+    "activePoseModel": "pose-yolo26n-synthetic-v1",
+    "bboxModels": [
+      "cardlens-synthetic-yolo26n"
+    ],
+    "condition": "Local Windows Chrome; API metadata reports device availability; per-process inference device not independently sampled",
+    "gpu": "NVIDIA GeForce GTX 1660 Ti, 617.42, 6144 MiB"
+  },
+  "mediaPermissionRequests": 0,
+  "sources": {
+    "image": {
+      "status": "confirmed",
+      "source": "local image",
+      "method": "Local file picker; unmodified authenticated scan WebSocket; trained YOLO pose and real recognition/OCR pipeline",
+      "identity": {
+        "name": "Charizard ex",
+        "set": "Obsidian Flames",
+        "number": "223",
+        "status": "needs_confirmation",
+        "votes": 3,
+        "consensusRequired": 3
+      },
+      "identityEndToEndMs": 12039,
+      "frameMessages": 75,
+      "framesWithTrack": 75,
+      "clientBinaryFramesSent": 75,
+      "clientBinaryBytes": 4475925,
+      "poseModelFrames": 75,
+      "poseModel": "pose-yolo26n-synthetic-v1",
+      "processingMs": {
+        "count": 75,
+        "p50Ms": 66.88,
+        "p95Ms": 92.75,
+        "includesColdStart": true
+      },
+      "browserSendToFrameRoundtripMs": {
+        "aiRoundtripP50Ms": 79,
+        "aiRoundtripP95Ms": 106,
+        "detectorTrackP50Ms": 67,
+        "detectorTrackP95Ms": 93,
+        "source": "scanner DOM session diagnostics; real sent-frame to returned-frame samples"
+      },
+      "actualIdentityEvents": [
+        {
+          "status": "stabilizing",
+          "votes": 1,
+          "ocrNumber": "223",
+          "candidateNames": [
+            "Charizard ex",
+            "Charizard ex",
+            "Charizard ex"
+          ]
+        },
+        {
+          "status": "stabilizing",
+          "votes": 2,
+          "ocrNumber": "223",
+          "candidateNames": [
+            "Charizard ex",
+            "Charizard ex",
+            "Charizard ex"
+          ]
+        },
+        {
+          "status": "needs_confirmation",
+          "votes": 3,
+          "ocrNumber": "223",
+          "candidateNames": [
+            "Charizard ex",
+            "Charizard ex",
+            "Charizard ex"
+          ]
+        }
+      ],
+      "cameraPermissionRequests": 0,
+      "sourceCleanup": {
+        "objectUrlRevoked": true,
+        "mediaSourceCleared": true
+      },
+      "preview": "STILL IMAGE · REPEATED\nPreview n/a FPS · AI 5.9 updates/s",
+      "screenshots": [
+        ".impeccable/review/ai-media-image-1440.png",
+        ".impeccable/review/ai-media-image-390.png"
+      ],
+      "failure": null
+    },
+    "video": {
+      "status": "no_result_within_video_duration",
+      "source": "local video",
+      "method": "Local file picker; unmodified authenticated scan WebSocket; trained YOLO pose and real recognition/OCR pipeline",
+      "identity": null,
+      "identityEndToEndMs": null,
+      "frameMessages": 13,
+      "framesWithTrack": 13,
+      "clientBinaryFramesSent": 14,
+      "clientBinaryBytes": 5278923,
+      "poseModelFrames": 13,
+      "poseModel": "pose-yolo26n-synthetic-v1",
+      "processingMs": {
+        "count": 13,
+        "p50Ms": 2103.65,
+        "p95Ms": 2793.84,
+        "includesColdStart": true
+      },
+      "browserSendToFrameRoundtripMs": {
+        "aiRoundtripP50Ms": 2111,
+        "aiRoundtripP95Ms": 2802,
+        "detectorTrackP50Ms": 2104,
+        "detectorTrackP95Ms": 2794,
+        "source": "scanner DOM session diagnostics; real sent-frame to returned-frame samples"
+      },
+      "actualIdentityEvents": [],
+      "cameraPermissionRequests": 0,
+      "sourceCleanup": {
+        "naturalEnd": true,
+        "decodedFramesPresented": 898,
+        "videoSourceCleared": true,
+        "allObjectUrlsRevoked": true
+      },
+      "preview": "LOCAL VIDEO\nPreview 30.1 FPS · AI — updates/s",
+      "screenshots": [
+        ".impeccable/review/ai-media-video-1440.png",
+        ".impeccable/review/ai-media-video-390.png"
+      ],
+      "failure": null,
+      "playback": {
+        "durationSeconds": 30.072,
+        "decodedFramesPresented": 898,
+        "naturalEnd": true
+      },
+      "consensusReached": false,
+      "consensusVotes": 0,
+      "ocrValuesObserved": [],
+      "timingSummary": {
+        "processingP50Ms": 2103.65,
+        "processingP95Ms": 2793.84,
+        "aiRoundtripP50Ms": 2111,
+        "aiRoundtripP95Ms": 2802,
+        "identityEndToEndMs": null
+      },
+      "sourceConditions": {
+        "synthetic": true,
+        "compressed": true,
+        "compression": "H.264/AVC MP4 from Chrome MediaRecorder",
+        "repeatedUnchangedScene": true,
+        "sourceImage": "data/evaluation/camera-scene.jpg",
+        "croppedScene": {
+          "x": 300,
+          "y": 120,
+          "width": 360,
+          "height": 480,
+          "source": "data/evaluation/camera-scene.jpg"
+        },
+        "physicalCamera": false
+      },
+      "cleanupStatus": "passed",
+      "cleanup": {
+        "naturalEnd": true,
+        "decodedFramesPresented": 898,
+        "videoSourceCleared": true,
+        "objectUrlRevoked": true
+      },
+      "previousFullSceneRunEvidence": {
+        "status": "no_result_within_video_duration",
+        "sourceConditions": {
+          "synthetic": true,
+          "compressed": true,
+          "repeatedUnchangedScene": true,
+          "cropped": false,
+          "sourceImage": "data/evaluation/camera-scene.jpg",
+          "fixtureWidth": 960,
+          "fixtureHeight": 720,
+          "durationMs": 30062
+        },
+        "frameMessages": 189,
+        "framesWithTrack": 189,
+        "identity": null,
+        "consensusReached": false,
+        "ocrValuesObserved": [
+          "223",
+          "OBF223",
+          "OB223"
+        ],
+        "ocrEvents": [
+          {
+            "status": "stabilizing",
+            "votes": 1,
+            "ocrNumber": "223"
+          },
+          {
+            "status": "stabilizing",
+            "votes": 2,
+            "ocrNumber": "223"
+          },
+          {
+            "status": "unknown",
+            "votes": 0,
+            "ocrNumber": "OBF223"
+          },
+          {
+            "status": "stabilizing",
+            "votes": 1,
+            "ocrNumber": "223"
+          },
+          {
+            "status": "unknown",
+            "votes": 0,
+            "ocrNumber": "OB223"
+          },
+          {
+            "status": "unknown",
+            "votes": 0,
+            "ocrNumber": "OBF223"
+          }
+        ],
+        "timingMs": {
+          "processingP50": 61.04,
+          "processingP95": 79.16,
+          "aiRoundtripP50": 73,
+          "aiRoundtripP95": 96
+        },
+        "cleanup": {
+          "naturalEnd": true,
+          "decodedFramesPresented": 898,
+          "videoSourceCleared": true,
+          "objectUrlRevoked": true
+        },
+        "preservedFromPriorFullSceneRun": true
+      }
+    }
+  },
+  "screenshots": [
+    ".impeccable/review/ai-media-image-1440.png",
+    ".impeccable/review/ai-media-image-390.png",
+    ".impeccable/review/ai-media-video-1440.png",
+    ".impeccable/review/ai-media-video-390.png"
+  ],
+  "pageErrors": [],
+  "verdict": "partial_video_no_consensus_within_duration",
+  "websocketScanConnections": 2,
+  "finalizedAt": "2026-11-18T14:19:07.956Z"
+}

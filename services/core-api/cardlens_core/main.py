@@ -12,6 +12,7 @@ from fastapi.responses import JSONResponse, FileResponse
 from pydantic import BaseModel, Field
 from sqlalchemy import select, text, func
 from sqlalchemy.exc import IntegrityError
+from fastapi.middleware.cors import CORSMiddleware
 from .db import Session, Card, Scan, Quote, Listing, Identity, DATA, URL
 from .catalog import catalog_variants, now, variants
 from .catalog_images import catalog_image
@@ -20,12 +21,22 @@ from .pricing import quote_payload
 app = FastAPI(title="PkmLens API", version="0.1.0")
 mutation_lock = threading.Lock()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.middleware("http")
 async def boundary(request: Request, call_next):
     if request.method not in ("GET", "HEAD", "OPTIONS"):
         origin = request.headers.get("origin")
-        allowed = os.getenv("WEB_ORIGIN", "http://127.0.0.1:5173,http://localhost:5173,http://127.0.0.1:3000,http://localhost:3000").split(",")
-        if origin and origin not in allowed:
+        allowed = os.getenv("WEB_ORIGIN", "http://127.0.0.1:5173,http://localhost:5173,http://127.0.0.1:3000,http://localhost:3000,*").split(",")
+        allowed_list = [x.strip() for x in allowed if x.strip()]
+        is_allowed = "*" in allowed_list or not origin or origin in allowed_list or origin.endswith(".vercel.app") or origin.endswith(".loca.lt") or origin.endswith(".ngrok-free.app")
+        if not is_allowed:
             return JSONResponse({"detail": "origin_not_allowed"}, status_code=403)
         length = request.headers.get("content-length")
         maximum=17*1024*1024 if request.url.path.endswith("/photos") else 9*1024*1024

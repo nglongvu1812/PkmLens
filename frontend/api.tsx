@@ -14,10 +14,16 @@ const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
 
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
+  const tunnelHeaders = {
+    'bypass-tunnel-reminder': 'true',
+    'ngrok-skip-browser-warning': 'true',
+  };
   try {
     response = await fetch(API_BASE + '/api/v1' + path, {
       ...init,
-      headers: init?.body instanceof FormData ? init.headers : { 'Content-Type': 'application/json', ...init?.headers },
+      headers: init?.body instanceof FormData
+        ? { ...tunnelHeaders, ...init.headers }
+        : { 'Content-Type': 'application/json', ...tunnelHeaders, ...init?.headers },
     });
   } catch {
     throw new Error('Chưa kết nối được máy chủ backend. Kiểm tra VITE_API_URL hoặc khởi chạy server.');

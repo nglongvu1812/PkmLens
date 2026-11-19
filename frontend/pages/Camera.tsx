@@ -220,7 +220,7 @@ export default function CameraPage() {
       const defaultWs = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/api/v1/ws/scan`;
       const envWs = import.meta.env.VITE_WS_URL || (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/^http/, 'ws').replace(/\/+$/, '') + '/api/v1/ws/scan' : '');
       const token = localStorage.getItem('pkmlens-session-token') || '';
-      const targetWs = (envWs || defaultWs) + (token ? `?token=${encodeURIComponent(token)}` : '');
+      const targetWs = envWs ? envWs + (token ? `?token=${encodeURIComponent(token)}` : '') : defaultWs;
       const ws = new WebSocket(targetWs);
       socket.current = ws;
       let connectionError = false;
@@ -495,21 +495,7 @@ export default function CameraPage() {
           {file && <small className="camera-file-name">{file.name}</small>}
         </label>}
       </div>
-      <div className="camera-viewport" style={hasPreview ? { aspectRatio: videoRatio } : undefined}>
-        <video ref={video} hidden={source === 'image'} muted playsInline autoPlay onResize={() => {
-          const media = video.current;
-          if (activeSource.current && media?.videoWidth && media.videoHeight) setVideoRatio(media.videoWidth / media.videoHeight);
-        }} onEnded={() => {
-          if (activeSource.current === 'video' && video.current?.ended) { stop(); logEvent('Video ended: inference stopped and source released'); }
-        }} /><img ref={image} hidden={source !== 'image'} alt="Ảnh cục bộ đang quét" /><canvas ref={canvas} hidden />
-        {!running && <div className="camera-placeholder">
-          <div className="camera-guide"><Scan size={57} weight="light" /></div>
-          <h2>Một lá thẻ, cả câu chuyện.</h2><p>{source === 'camera' ? 'Bật camera và đặt lá thẻ trong khung hình.' : 'Chọn tệp rồi bấm quét để gửi khung hình đến AI.'}<br />Giữ thẻ rõ nét, tránh ánh sáng phản chiếu.</p>
-          <button className="button camera-start" onClick={start} disabled={starting || !ready || !modelReady || (source !== 'camera' && !file)}>
-            <Camera size={21} />{starting ? 'Đang kết nối…' : source === 'camera' ? 'Bật camera để bắt đầu' : source === 'image' ? 'Quét ảnh đã chọn' : 'Quét video đã chọn'}</button>
-          <small><CameraSlash size={14} />Hình ảnh quét không được lưu lại.</small>
-          {experiment && <p className="camera-experiment-inline"><Info size={15} />{usePose ? 'Model pose thử nghiệm' : 'Model bbox thử nghiệm'} · chưa kiểm chứng camera thật.</p>}
-        </div>}
+      <div className="camera-stage">
         {running && <>
           <div className="camera-topline"><span><i />{paused ? 'TẠM DỪNG' : source === 'camera' ? 'LIVE CAMERA' : source === 'image' ? 'STILL IMAGE · REPEATED' : 'LOCAL VIDEO'}</span>
             <span>Preview {source === 'image' ? 'n/a' : measurement(previewFps)} FPS · AI {measurement(aiFps)} updates/s</span></div>
@@ -518,20 +504,38 @@ export default function CameraPage() {
             <span>Config #{configurationId.current} / revision {configurationRevision.current ?? '—'} · {usePose ? 'pose' : 'bbox'}</span>
             <span>Preview meter: {source === 'image' ? 'still image; no video FPS' : previewMethod}</span>
           </div>}
-          <svg className="tracking-quadrilaterals" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true">{tracks.filter(track => track.quadrilateral?.length === 4).map(track => <polygon key={track.track_id + track.generation} points={track.quadrilateral!.map(point => `${point[0]},${point[1]}`).join(' ')} className={track.track_id === selected?.track_id ? 'selected' : ''} />)}</svg>
-          {tracks.map(track => <button key={track.track_id + track.generation}
-            aria-label={'Chọn thẻ ' + (track.status === 'needs_confirmation' ? track.candidates[0]?.card?.name : '#' + track.track_id)}
-            className={'tracking-box ' + (track.status === 'needs_confirmation' ? 'recognized' : '') + (track.quadrilateral?.length === 4 ? ' has-quad' : '')}
-            style={{ left: `${track.box[0] * 100}%`, top: `${track.box[1] * 100}%`, width: `${(track.box[2] - track.box[0]) * 100}%`, height: `${(track.box[3] - track.box[1]) * 100}%` }}
-            onClick={() => setSelectedId(track.track_id)}>
-            <span>{(track.status === 'needs_confirmation' && track.candidates[0]?.card
-              ? `${track.candidates[0].card.name}${track.candidates[0].card.number ? ' #' + track.candidates[0].card.number : ''} · sim ${track.candidates[0].similarity.toFixed(2)}`
-              : track.status === 'stabilizing' && track.candidates[0]?.card
-              ? `${track.candidates[0].card.name}${track.candidates[0].card.number ? ' #' + track.candidates[0].card.number : ''} (${track.votes}/${track.consensus_required ?? 3})`
-              : 'Thẻ #' + track.track_id)} · detector {track.confidence.toFixed(2)}</span><i /><i /><i /><i />
-          </button>)}
           {!tracks.length && <div className="camera-wait" role="status"><Crosshair size={21} />{configuring ? 'Đang chờ AI xác nhận cấu hình' : configurationFailed ? 'Cấu hình chưa sẵn sàng · xem thông báo lỗi' : source === 'camera' ? 'Đặt thẻ vào khung hình để nhận diện' : 'Đang tìm thẻ trong tệp'}</div>}
         </>}
+        <div className="camera-viewport" style={hasPreview ? { aspectRatio: videoRatio, width: `min(100%, calc(min(68vh, 540px) * ${videoRatio}))` } : undefined}>
+          <video ref={video} hidden={source === 'image'} muted playsInline autoPlay onResize={() => {
+            const media = video.current;
+            if (activeSource.current && media?.videoWidth && media.videoHeight) setVideoRatio(media.videoWidth / media.videoHeight);
+          }} onEnded={() => {
+            if (activeSource.current === 'video' && video.current?.ended) { stop(); logEvent('Video ended: inference stopped and source released'); }
+          }} /><img ref={image} hidden={source !== 'image'} alt="Ảnh cục bộ đang quét" /><canvas ref={canvas} hidden />
+          {!running && <div className="camera-placeholder">
+            <div className="camera-guide"><Scan size={57} weight="light" /></div>
+            <h2>Một lá thẻ, cả câu chuyện.</h2><p>{source === 'camera' ? 'Bật camera và đặt lá thẻ trong khung hình.' : 'Chọn tệp rồi bấm quét để gửi khung hình đến AI.'}<br />Giữ thẻ rõ nét, tránh ánh sáng phản chiếu.</p>
+            <button className="button camera-start" onClick={start} disabled={starting || !ready || !modelReady || (source !== 'camera' && !file)}>
+              <Camera size={21} />{starting ? 'Đang kết nối…' : source === 'camera' ? 'Bật camera để bắt đầu' : source === 'image' ? 'Quét ảnh đã chọn' : 'Quét video đã chọn'}</button>
+            <small><CameraSlash size={14} />Hình ảnh quét không được lưu lại.</small>
+            {experiment && <p className="camera-experiment-inline"><Info size={15} />{usePose ? 'Model pose thử nghiệm' : 'Model bbox thử nghiệm'} · chưa kiểm chứng camera thật.</p>}
+          </div>}
+          {running && <>
+            <svg className="tracking-quadrilaterals" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true">{tracks.filter(track => track.quadrilateral?.length === 4).map(track => <polygon key={track.track_id + track.generation} points={track.quadrilateral!.map(point => `${point[0]},${point[1]}`).join(' ')} className={track.track_id === selected?.track_id ? 'selected' : ''} />)}</svg>
+            {tracks.map(track => <button key={track.track_id + track.generation}
+              aria-label={'Chọn thẻ ' + (track.status === 'needs_confirmation' ? track.candidates[0]?.card?.name : '#' + track.track_id)}
+              className={'tracking-box ' + (track.status === 'needs_confirmation' ? 'recognized' : '') + (track.quadrilateral?.length === 4 ? ' has-quad' : '')}
+              style={{ left: `${track.box[0] * 100}%`, top: `${track.box[1] * 100}%`, width: `${(track.box[2] - track.box[0]) * 100}%`, height: `${(track.box[3] - track.box[1]) * 100}%` }}
+              onClick={() => setSelectedId(track.track_id)}>
+              <span>{(track.status === 'needs_confirmation' && track.candidates[0]?.card
+                ? `${track.candidates[0].card.name}${track.candidates[0].card.number ? ' #' + track.candidates[0].card.number : ''} · sim ${track.candidates[0].similarity.toFixed(2)}`
+                : track.status === 'stabilizing' && track.candidates[0]?.card
+                ? `${track.candidates[0].card.name}${track.candidates[0].card.number ? ' #' + track.candidates[0].card.number : ''} (${track.votes}/${track.consensus_required ?? 3})`
+                : 'Thẻ #' + track.track_id)} · detector {track.confidence.toFixed(2)}</span><i /><i /><i /><i />
+            </button>)}
+          </>}
+        </div>
       </div>
       <div className="camera-bottom"><div><span className="camera-lens-dot" />{running ? `${tracks.length} lá thẻ trong khung${confirmedCount ? ` · ${confirmedCount} đã nhận diện` : ''}` : source === 'camera' ? 'Webcam / camera điện thoại' : source === 'image' ? 'Ảnh cục bộ' : 'Video cục bộ'}</div><div>
         {running && <button className="icon-button" onClick={togglePause} aria-label={paused ? 'Tiếp tục quét' : 'Tạm dừng quét'}>{paused ? <Play size={20} /> : <Pause size={20} />}</button>}

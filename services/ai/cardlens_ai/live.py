@@ -8,6 +8,7 @@ import secrets
 import time
 from dataclasses import dataclass, field
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from PIL import ImageOps
 import numpy as np
 from .imaging import decode, phash
 from .identity import _name, effective_margin
@@ -229,6 +230,39 @@ def _recognition_rank(result):
             float(top.get('fusion_score',top.get('similarity',0.0))))
 
 
+def detect_full_card(image, model_id=None, confidence=.45, size=480, want_corners=False):
+    """Detect tightly-cropped full-bleed single card images where edge-to-edge pose fails."""
+    w, h = image.width, image.height
+    if w < 180 or h < 240 or not (0.62 <= (w / h) <= 0.82):
+        return None
+    try:
+        border = int(max(w, h) * 0.35)
+        padded = ImageOps.expand(image, border=border, fill=(32, 32, 32))
+        boxes, info = detect(padded, model_id, confidence, size)
+        raw = boxes.data if hasattr(boxes, 'data') else np.asarray(boxes, dtype=np.float32)
+        rows = np.asarray(raw, dtype=np.float32).reshape(-1, 6) if len(raw) else np.zeros((0, 6), dtype=np.float32)
+    except Exception:
+        return None
+    valid = [r for r in rows if float(r[4]) >= max(0.55, confidence)]
+    if len(valid) != 1:
+        return None
+    x1, y1, x2, y2, conf, _ = [float(v) for v in valid[0]]
+    ox1 = max(0.0, x1 - border)
+    oy1 = max(0.0, y1 - border)
+    ox2 = min(float(w), x2 - border)
+    oy2 = min(float(h), y2 - border)
+    if (ox2 - ox1) / w < 0.82 or (oy2 - oy1) / h < 0.82:
+        return None
+    out_rows = np.array([[ox1, oy1, ox2, oy2, conf, 0.0]], dtype=np.float32)
+    if want_corners:
+        rx2 = min(float(w) - 1e-3, max(ox1 + 1.0, ox2))
+        ry2 = min(float(h) - 1e-3, max(oy1 + 1.0, oy2))
+        out_corners = np.array([[[ox1, oy1], [rx2, oy1], [rx2, ry2], [ox1, ry2]]], dtype=np.float32)
+    else:
+        out_corners = None
+    return out_rows, out_corners, info
+
+
 def recognize(image):
     from .pipeline import identify
     first=identify(image,encode_images=False)
@@ -352,7 +386,13 @@ async def live(ws:WebSocket):
                 started=time.perf_counter()
                 image=await run_thread(decode_frame,raw)
                 if work_epoch!=epoch:continue
-                if frame_settings['pose_model']:
+                full=await run_thread(detect_full_card,image,frame_settings['model'],frame_settings['confidence'],frame_settings['size'],bool(frame_settings['pose_model']))
+                if work_epoch!=epoch:continue
+                if full is not None:
+                    boxes,corners,info=full
+                    if frame_settings['pose_model']:
+                        info={**info,'id':frame_settings['pose_model']}
+                elif frame_settings['pose_model']:
                     boxes,corners,info=await run_thread(detect_pose,image,frame_settings['pose_model'],frame_settings['confidence'],frame_settings['size'])
                 else:
                     boxes,info=await run_thread(detect,image,frame_settings['model'],frame_settings['confidence'],frame_settings['size'])

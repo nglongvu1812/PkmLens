@@ -91,31 +91,6 @@ export default function RecognitionPanel({ tracks, selected, onSelect, onSave, s
         <div><span>Số thẻ OCR</span><strong>{selected.ocr?.number || 'Chưa đọc được'}</strong></div>
         <div><span>Đối chiếu khung hình</span><strong>{selected.votes}/{consensusRequired}</strong></div>
       </div>
-      <p className="recognition-measure-note">Điểm tương đồng và điểm detector không phải xác suất nhận diện đúng.</p>
-      {stillImage && <p className="recognition-measure-note">Consensus từ cùng một ảnh tĩnh gửi lặp; không phải kiểm chứng camera thật độc lập.</p>}
-      {ineligible && <p className="recognition-measure-note">Khung này chưa đủ điều kiện cho định danh AI. Cải thiện ảnh hoặc tự đối chiếu bản in trong catalog.</p>}
-      {!!selected.candidates.length && <fieldset className="candidate-options">
-        <legend>Đối chiếu và chọn lại bản in</legend>
-        {selected.candidates.filter(candidate => candidate.card).map(candidate => <button type="button"
-          key={candidate.card_id} aria-pressed={best?.card_id === candidate.card_id}
-          onClick={() => choose(candidate)}>
-          <span><b>{candidate.card!.name}</b><small>{candidate.card!.set_name} · #{candidate.card!.number}</small></span>
-          {best?.card_id === candidate.card_id && <Check size={17} />}
-        </button>)}
-      </fieldset>}
-      <div className="manual-identification">
-        <label htmlFor="scanner-catalog-search">Tìm bản in khác trong catalog</label>
-        <div className="manual-search"><MagnifyingGlass size={18} /><input id="scanner-catalog-search"
-          value={query} onChange={event => setQuery(event.target.value)} placeholder="Tên hoặc số thẻ…" /></div>
-        {searching && <p role="status">Đang tìm thẻ…</p>}
-        {error && <p role="alert">{error}</p>}
-        {!searching && query.trim().length >= 2 && !matches.length && <p>Chưa có trong catalog. Bạn có thể lưu văn bản OCR ở dạng chưa định danh.</p>}
-        {matches.length > 0 && <ul className="manual-matches">{matches.map(card => <li key={card.id}>
-          <button type="button" onClick={() => choose({ card_id: card.id, card, similarity: 0 })}>
-            <b>{card.name}</b><small>{card.set_name} · #{card.number}</small>
-          </button>
-        </li>)}</ul>}
-      </div>
       {best?.card && <>
         <label>Biến thể bản in<select aria-label="Biến thể bản in" value={selectedVariant?.id ?? ''} onChange={event => {
           const id = event.currentTarget.value;
@@ -141,6 +116,31 @@ export default function RecognitionPanel({ tracks, selected, onSelect, onSave, s
         onClick={() => onSave({ card_id: '', similarity: 0, ocrName: selected.ocr?.name, ocrNumber: selected.ocr?.number })}>
         <Plus size={18} />Lưu OCR chưa định danh
       </button>}
+      <p className="recognition-measure-note">Điểm tương đồng và điểm detector không phải xác suất nhận diện đúng.</p>
+      {stillImage && <p className="recognition-measure-note">Consensus từ cùng một ảnh tĩnh gửi lặp; không phải kiểm chứng camera thật độc lập.</p>}
+      {ineligible && <p className="recognition-measure-note">Khung này chưa đủ điều kiện cho định danh AI. Cải thiện ảnh hoặc tự đối chiếu bản in trong catalog.</p>}
+      {!!selected.candidates.length && <fieldset className="candidate-options">
+        <legend>Đổi bản in khác nếu cần</legend>
+        {selected.candidates.filter(candidate => candidate.card).map(candidate => <button type="button"
+          key={candidate.card_id} aria-pressed={best?.card_id === candidate.card_id}
+          onClick={() => choose(candidate)}>
+          <span><b>{candidate.card!.name}</b><small>{candidate.card!.set_name} · #{candidate.card!.number} · sim {candidate.similarity.toFixed(2)}</small></span>
+          {best?.card_id === candidate.card_id && <Check size={17} />}
+        </button>)}
+      </fieldset>}
+      <div className="manual-identification">
+        <label htmlFor="scanner-catalog-search">Tìm bản in khác trong catalog</label>
+        <div className="manual-search"><MagnifyingGlass size={18} /><input id="scanner-catalog-search"
+          value={query} onChange={event => setQuery(event.target.value)} placeholder="Tên hoặc số thẻ…" /></div>
+        {searching && <p role="status">Đang tìm thẻ…</p>}
+        {error && <p role="alert">{error}</p>}
+        {!searching && query.trim().length >= 2 && !matches.length && <p>Chưa có trong catalog. Bạn có thể lưu văn bản OCR ở dạng chưa định danh.</p>}
+        {matches.length > 0 && <ul className="manual-matches">{matches.map(card => <li key={card.id}>
+          <button type="button" onClick={() => choose({ card_id: card.id, card, similarity: 0 })}>
+            <b>{card.name}</b><small>{card.set_name} · #{card.number}</small>
+          </button>
+        </li>)}</ul>}
+      </div>
     </> : <div className="recognition-empty"><Scan size={58} weight="light" />
       <h3>Lá thẻ nào đang chờ được khám phá?</h3>
       <p>Khi nguồn quét tìm thấy thẻ, tên, bộ thẻ và các bằng chứng nhận diện sẽ xuất hiện ở đây.</p>

@@ -4,11 +4,23 @@ Website đồ án Học Máy: **FastAPI + React 18.3.1 + Vite**, camera live dù
 
 ## Mở trên máy hiện tại
 
-- Website: chạy `start-pkmlens.bat`, mở **http://127.0.0.1:5173**.
-- Công cụ train: chạy `start-trainer.bat`.
+- **Website toàn diện (Local + Cloudflare Tunnel)**: chạy `start-all.bat`. Script tự động khởi động Backend (`:8100`), AI Service (`:8101`), Frontend Vite (`:5173`) và tự động bật **Cloudflare Tunnel** trỏ ra ngoài Internet (`https://xxxx.trycloudflare.com`) để kết nối với Vercel hoặc truy cập từ điện thoại/máy tính khác.
+- **Website local riêng**: chạy `start-pkmlens.bat`, mở **http://127.0.0.1:5173**.
+- **Dừng hệ thống**: chạy `stop-pkmlens.bat` (tự động dọn dẹp các tiến trình backend và đóng cửa sổ Cloudflare Tunnel).
+- **Công cụ train**: chạy `start-trainer.bat`.
 - Script ưu tiên `.venv` trong PkmLens; khi chưa tạo, dùng môi trường CUDA đã có ở `D:\Project\CardLens\.venv-yolo`.
 - Backend PkmLens chạy cổng **8100**, AI **8101**. Database riêng: `data/pkmlens.db`; cookie riêng `pkmlens_session`. Không dùng tài khoản/database của CardLens.
 - Đăng ký tài khoản trên web để đăng bán. Mật khẩu ít nhất 12 ký tự. Tin đăng cần ảnh mặt trước và mặt sau. Giỏ hàng dùng số dư mô phỏng, không thu tiền thật.
+
+## Triển khai Frontend lên Vercel & Kết nối Backend
+
+Frontend hỗ trợ deploy trực tiếp lên Vercel dưới dạng Static Site (SPA):
+1. **Repository**: Đẩy source code lên GitHub và Import vào Vercel (chọn Framework Preset là **Vite**).
+2. **Biến môi trường trên Vercel** (`Settings` -> `Environment Variables`):
+   - Thêm `VITE_API_URL`: gán bằng URL tunnel public trỏ tới Backend Python (ví dụ URL `https://xxxx.trycloudflare.com` do `start-all.bat` tạo ra, không có dấu `/` ở cuối).
+   - *(Tùy chọn)* `VITE_WS_URL`: WebSocket URL (mặc định frontend tự chuyển `http(s)` của `VITE_API_URL` sang `ws(s)` và gắn path `/api/v1/ws/scan`).
+3. **Redeploy**: Sau khi đổi biến môi trường, vào tab Deployments chọn **Redeploy** để Vite build lại bundle.
+4. **CORS & Tunnel Bypass**: Backend FastAPI đã tích hợp sẵn CORS cho các domain `*.vercel.app`, đồng thời frontend tự động đính kèm header bypass tunnel để tương thích hoàn toàn với Cloudflare Tunnel, localtunnel, ngrok.
 
 ## Cài môi trường riêng
 

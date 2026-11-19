@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Heart, ImageBroken, Storefront } from '@phosphor-icons/react';
-import { conditionName, money, useStore } from '../api';
+import { conditionName, mediaUrl, money, useStore } from '../api';
 import type { Card, Listing } from '../types';
 
 export function CardArt({ src, name, eager = false }: { src: string; name: string; eager?: boolean }) {
   const [broken, setBroken] = useState(false);
-  return broken ? <div className="missing-art"><ImageBroken size={32} /><span>Chưa tải được ảnh</span></div> : <img src={src} alt={name} loading={eager ? 'eager' : 'lazy'} onError={() => setBroken(true)} />;
+  return broken ? <div className="missing-art"><ImageBroken size={32} /><span>Chưa tải được ảnh</span></div> : <img src={mediaUrl(src)} alt={name} loading={eager ? 'eager' : 'lazy'} onError={() => setBroken(true)} />;
 }
 
 export default function CardTile({ card, sale }: { card: Card; sale?: Listing }) {

@@ -10,7 +10,13 @@ const errorLabels: Record<string, string> = {
   session_expired: 'Phiên đã hết hạn. Tải lại trang để tiếp tục.',
 };
 
-const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+export const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+
+export function mediaUrl(src: string): string {
+  if (!src) return src;
+  if (API_BASE && src.startsWith('/api/')) return API_BASE + src;
+  return src;
+}
 
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;

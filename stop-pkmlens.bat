@@ -8,4 +8,5 @@ if not exist "%PYTHON%" set "PYTHON=D:\Project\CardLens\.venv-yolo\Scripts\pytho
 if not exist "%PYTHON%" set "PYTHON=python"
 
 "%PYTHON%" scripts\serve.py --stop
+taskkill /FI "WINDOWTITLE eq PkmLens Cloudflare Tunnel*" /F >nul 2>nul
 pause

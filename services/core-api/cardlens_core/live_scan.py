@@ -6,7 +6,7 @@ import os
 import time
 from fastapi import APIRouter, Depends, HTTPException, WebSocket, WebSocketDisconnect
 import httpx
-from .accounts import owner
+from .accounts import owner, extract_token
 from .db import Session, Card
 from .shop import card_summary
 
@@ -52,7 +52,6 @@ async def scan(ws:WebSocket):
                 while True:
                     message=await ws.receive()
                     if message['type']=='websocket.disconnect':return
-                    if user != 'guest' and extract_token(ws): pass
                     if message.get('bytes') is not None:
                         raw=message['bytes']
                         if len(raw)>1_500_000:await ws.close(code=1009);return
@@ -64,7 +63,6 @@ async def scan(ws:WebSocket):
                         await ai.send(message['text'])
             async def results():
                 async for raw in ai:
-                    if user != 'guest' and extract_token(ws): pass
                     value=json.loads(raw)
                     with Session() as db:
                         candidates=value.get('candidates',[])+[c for t in value.get('tracks',[]) for c in t.get('candidates',[])]

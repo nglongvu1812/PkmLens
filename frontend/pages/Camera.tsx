@@ -219,7 +219,9 @@ export default function CameraPage() {
       if (source !== 'image') measurePreview(v, currentGeneration);
       const defaultWs = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/api/v1/ws/scan`;
       const envWs = import.meta.env.VITE_WS_URL || (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/^http/, 'ws').replace(/\/+$/, '') + '/api/v1/ws/scan' : '');
-      const ws = new WebSocket(envWs || defaultWs);
+      const token = localStorage.getItem('pkmlens-session-token') || '';
+      const targetWs = (envWs || defaultWs) + (token ? `?token=${encodeURIComponent(token)}` : '');
+      const ws = new WebSocket(targetWs);
       socket.current = ws;
       let connectionError = false;
       ws.onopen = () => {

@@ -12,17 +12,29 @@ from .catalog import now
 
 router=APIRouter(prefix="/api/v1")
 
-def owner(request: Request):
-    token=request.cookies.get("pkmlens_session","")
+def extract_token(request: Request) -> str:
+    token = request.cookies.get("pkmlens_session", "")
     if not token:
-        raise HTTPException(401,"session_required")
-    digest=hashlib.sha256(token.encode()).hexdigest()
+        auth = request.headers.get("authorization", "")
+        if auth.startswith("Bearer "):
+            token = auth[7:].strip()
+        elif request.headers.get("x-session-token"):
+            token = request.headers.get("x-session-token", "")
+        elif hasattr(request, "query_params") and request.query_params.get("token"):
+            token = request.query_params.get("token", "")
+    return token
+
+def owner(request: Request):
+    token = extract_token(request)
+    if not token:
+        raise HTTPException(401, "session_required")
+    digest = hashlib.sha256(token.encode()).hexdigest()
     with Session() as db:
-        identity=db.get(Identity,digest)
-        if not identity or identity.expires_at<now():
-            raise HTTPException(401,"session_expired")
-        login=db.get(Login,digest)
-        return db.get(User,login.user_id).owner if login else digest
+        identity = db.get(Identity, digest)
+        if not identity or identity.expires_at < now():
+            raise HTTPException(401, "session_expired")
+        login = db.get(Login, digest)
+        return db.get(User, login.user_id).owner if login else digest
 
 def member(user=Depends(owner)):
     with Session() as db:

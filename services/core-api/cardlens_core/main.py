@@ -23,7 +23,7 @@ mutation_lock = threading.Lock()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origin_regex=r".*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -98,8 +98,9 @@ def create_session(request: Request, response: Response):
         digest = hashlib.sha256(token.encode()).hexdigest()
         with Session.begin() as db:
             db.add(Identity(id=digest, created_at=now(), expires_at=(datetime.now(timezone.utc)+timedelta(days=7)).isoformat()))
-        response.set_cookie("pkmlens_session", token, httponly=True, samesite="strict", secure=os.getenv("COOKIE_SECURE", "false") == "true", max_age=604800)
-        return {"mode": "local_guest", "expires_days": 7}
+        is_https = request.url.scheme == "https" or request.headers.get("x-forwarded-proto") == "https" or os.getenv("COOKIE_SECURE", "false") == "true"
+        response.set_cookie("pkmlens_session", token, httponly=True, samesite="none" if is_https else "lax", secure=is_https, max_age=604800)
+        return {"mode": "local_guest", "expires_days": 7, "token": token}
 
 class CardView(BaseModel):
     id: str

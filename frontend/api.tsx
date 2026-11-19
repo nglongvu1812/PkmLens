@@ -14,13 +14,18 @@ const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
 
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
-  const tunnelHeaders = {
+  const token = localStorage.getItem('pkmlens-session-token') || '';
+  const tunnelHeaders: Record<string, string> = {
     'bypass-tunnel-reminder': 'true',
     'ngrok-skip-browser-warning': 'true',
   };
+  if (token) {
+    tunnelHeaders['x-session-token'] = token;
+  }
   try {
     response = await fetch(API_BASE + '/api/v1' + path, {
       ...init,
+      credentials: 'include',
       headers: init?.body instanceof FormData
         ? { ...tunnelHeaders, ...init.headers }
         : { 'Content-Type': 'application/json', ...tunnelHeaders, ...init?.headers },
@@ -84,8 +89,11 @@ export function Provider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let active = true;
-    api('/session', { method: 'POST' })
-      .then(() => api<Member>('/me'))
+    api<{ token?: string }>('/session', { method: 'POST' })
+      .then(res => {
+        if (res?.token) localStorage.setItem('pkmlens-session-token', res.token);
+        return api<Member>('/me');
+      })
       .then(member => {
         if (active) {
           setMe(member);

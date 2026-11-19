@@ -20,8 +20,14 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
       headers: init?.body instanceof FormData ? init.headers : { 'Content-Type': 'application/json', ...init?.headers },
     });
   } catch {
-    throw new Error('Chưa kết nối được máy chủ. Kiểm tra ứng dụng đang chạy và thử lại.');
+    throw new Error('Chưa kết nối được máy chủ backend. Kiểm tra VITE_API_URL hoặc khởi chạy server.');
   }
+
+  const contentType = response.headers.get('content-type') || '';
+  if (response.status === 405 || (response.ok && contentType.includes('text/html'))) {
+    throw new Error('Chưa kết nối máy chủ API (Vercel tĩnh). Cần cấu hình biến môi trường VITE_API_URL trỏ đến server backend Python.');
+  }
+
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
     throw new Error(errorLabels[body.detail] || (typeof body.detail === 'string' ? body.detail : `Yêu cầu chưa thành công (${response.status}).`));
@@ -29,7 +35,19 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   return response.json();
 }
 
-type Store = { me: Member | null; ready: boolean; error: string; refresh: () => Promise<void>; saved: string[]; toggleSaved: (id: string) => void; cart: string[]; addCart: (id: string) => void; removeCart: (id: string) => void; clearCart: () => void };
+type Store = {
+  me: Member | null;
+  ready: boolean;
+  error: string;
+  backendOnline: boolean;
+  refresh: () => Promise<void>;
+  saved: string[];
+  toggleSaved: (id: string) => void;
+  cart: string[];
+  addCart: (id: string) => void;
+  removeCart: (id: string) => void;
+  clearCart: () => void;
+};
 const Context = createContext<Store | null>(null);
 
 function stored(key: string): string[] {
@@ -42,20 +60,48 @@ function stored(key: string): string[] {
 export function Provider({ children }: { children: ReactNode }) {
   const [me, setMe] = useState<Member | null>(null);
   const [ready, setReady] = useState(false);
+  const [backendOnline, setBackendOnline] = useState(true);
   const [error, setError] = useState('');
   const [saved, setSaved] = useState(() => stored('pkmlens-saved'));
   const [cart, setCart] = useState(() => stored('pkmlens-cart'));
-  async function refresh() { setMe(await api<Member>('/me')); }
+
+  async function refresh() {
+    try {
+      setMe(await api<Member>('/me'));
+      setBackendOnline(true);
+      setError('');
+    } catch {
+      setBackendOnline(false);
+      setError('Chưa kết nối được máy chủ backend.');
+    }
+  }
+
   useEffect(() => {
     let active = true;
-    api('/session', { method: 'POST' }).then(() => api<Member>('/me')).then(member => {
-      if (active) { setMe(member); setReady(true); }
-    }).catch(reason => { if (active) setError(reason.message); });
+    api('/session', { method: 'POST' })
+      .then(() => api<Member>('/me'))
+      .then(member => {
+        if (active) {
+          setMe(member);
+          setBackendOnline(true);
+          setReady(true);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          // Backend is offline or static hosting without proxy (Vercel)
+          setBackendOnline(false);
+          setReady(true);
+        }
+      });
     return () => { active = false; };
   }, []);
+
   useEffect(() => { localStorage.setItem('pkmlens-saved', JSON.stringify(saved)); }, [saved]);
   useEffect(() => { localStorage.setItem('pkmlens-cart', JSON.stringify(cart)); }, [cart]);
-  return <Context.Provider value={{ me, ready, error, refresh, saved,
+
+  return <Context.Provider value={{
+    me, ready, error, backendOnline, refresh, saved,
     toggleSaved: id => setSaved(items => items.includes(id) ? items.filter(item => item !== id) : [...items, id]),
     cart, addCart: id => setCart(items => [...new Set([...items, id])].slice(0, 20)),
     removeCart: id => setCart(items => items.filter(item => item !== id)), clearCart: () => setCart([]),

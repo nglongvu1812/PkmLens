@@ -5,9 +5,10 @@ import { api, useStore } from '../api';
 import type { Card, Listing, SetInfo } from '../types';
 import CardTile, { CardArt } from '../components/CardTile';
 import { languageLabel } from '../components/LanguageLabel';
+import { FALLBACK_CARDS, FALLBACK_SETS } from '../fallbackData';
 
 export default function Market({ salesOnly = false, savedOnly = false }: { salesOnly?: boolean; savedOnly?: boolean }) {
-  const { ready, saved } = useStore();
+  const { ready, saved, backendOnline } = useStore();
   const [params, setParams] = useSearchParams();
   const q = params.get('q') || '';
   const setId = params.get('set') || '';
@@ -31,7 +32,7 @@ export default function Market({ salesOnly = false, savedOnly = false }: { sales
   function setOffset(value: number) { setPage({ scope, offset: value }); }
   useEffect(() => {
     if (!ready) return;
-    api<SetInfo[]>('/shop/sets').then(setSets).catch(() => {});
+    api<SetInfo[]>('/shop/sets').then(setSets).catch(() => { setSets(FALLBACK_SETS); });
   }, [ready]);
   useEffect(() => {
     if (!ready) return;
@@ -48,7 +49,18 @@ export default function Market({ salesOnly = false, savedOnly = false }: { sales
       if (controller.signal.aborted) return;
       if (Array.isArray(result)) { setSales(result); setTotal(result.length); }
       else { setCards(result.items); setTotal(result.total); }
-    }).catch(reason => { if (!controller.signal.aborted) setError(reason.message); }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
+    }).catch(reason => {
+      if (!controller.signal.aborted) {
+        if (!salesOnly && !savedOnly) {
+          let list = FALLBACK_CARDS;
+          if (q) list = list.filter(item => item.name.toLowerCase().includes(q.toLowerCase()) || item.number.includes(q));
+          if (setId) list = list.filter(item => item.set_id === setId);
+          setCards(list); setTotal(list.length);
+        } else {
+          setError(reason.message);
+        }
+      }
+    }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
   }, [q, setId, language, offset, ready, salesOnly, savedOnly, saved, rare, sort]);
   useEffect(() => { if (filterOpen) dialog.current?.showModal(); else dialog.current?.close(); }, [filterOpen]);
@@ -78,7 +90,10 @@ export default function Market({ salesOnly = false, savedOnly = false }: { sales
     <div className="filter-note"><Cards size={26} /><strong>Tìm đúng lá thẻ của bạn.</strong><p>Thử camera AI để nhận diện thẻ trong bộ sưu tập.</p><Link to="/scan">Mở máy quét <ArrowRight size={16} /></Link></div>
   </>; }
   return <>
-    {!savedOnly && !salesOnly ? <section className="market-hero"><div className="hero-text"><h1>Lá thẻ tiếp theo.<br /><span>Câu chuyện của bạn.</span></h1><p>Một góc nhỏ cho niềm đam mê lớn.<br className="desktop-break" /> Khám phá thẻ Pokémon, tìm đúng bản in và kết nối người sưu tập.</p><div className="hero-buttons"><Link className="button primary" to="/scan"><Camera size={20} />Quét thẻ bằng AI<ArrowUpRightIcon /></Link><Link className="hero-secondary" to="/market">Khám phá chợ thẻ <ArrowRight size={18} /></Link></div></div><div className="hero-art" aria-label="Thẻ Pokémon Base Set"><div className="hero-orbit" /><Link to="/cards/base1%3A3%3Aen" className="hero-card card-back"><CardArt src="/api/v1/cards/base1:3:en/image" name="Chansey Base Set" eager /></Link><Link to="/cards/base1%3A4%3Aen" className="hero-card card-front"><CardArt src="/api/v1/cards/base1:4:en/image" name="Charizard Base Set" eager /></Link><div className="hero-caption"><span><Check size={14} weight="bold" /></span> Sưu tập điều bạn yêu.</div><span className="hero-small-star star-one">✦</span><span className="hero-small-star star-two">✧</span></div></section> : <div className="page-heading"><h1>{savedOnly ? 'Những lá thẻ bạn yêu.' : 'Từ người sưu tập, đến người sưu tập.'}</h1><p>{savedOnly ? 'Lưu lại cảm hứng cho bộ sưu tập tiếp theo.' : 'Những tin đăng đang mở từ cộng đồng PkmLens.'}</p></div>}
+    {!savedOnly && !salesOnly ? <section className="market-hero"><div className="hero-text"><h1>Lá thẻ tiếp theo.<br /><span>Câu chuyện của bạn.</span></h1><p>Một góc nhỏ cho niềm đam mê lớn.<br className="desktop-break" /> Khám phá thẻ Pokémon, tìm đúng bản in và kết nối người sưu tập.</p><div className="hero-buttons"><Link className="button primary" to="/scan"><Camera size={20} />Quét thẻ bằng AI<ArrowUpRightIcon /></Link><Link className="hero-secondary" to="/market">Khám phá chợ thẻ <ArrowRight size={18} /></Link></div></div><div className="hero-art" aria-label="Thẻ Pokémon Base Set"><div className="hero-orbit" /><Link to="/cards/base1%3A3%3Aen" className="hero-card card-back"><CardArt src="https://assets.tcgdex.net/en/base/base1/3/high.webp" name="Chansey Base Set" eager /></Link><Link to="/cards/base1%3A4%3Aen" className="hero-card card-front"><CardArt src="https://assets.tcgdex.net/en/base/base1/4/high.webp" name="Charizard Base Set" eager /></Link><div className="hero-caption"><span><Check size={14} weight="bold" /></span> Sưu tập điều bạn yêu.</div><span className="hero-small-star star-one">✦</span><span className="hero-small-star star-two">✧</span></div></section> : <div className="page-heading"><h1>{savedOnly ? 'Những lá thẻ bạn yêu.' : 'Từ người sưu tập, đến người sưu tập.'}</h1><p>{savedOnly ? 'Lưu lại cảm hứng cho bộ sưu tập tiếp theo.' : 'Những tin đăng đang mở từ cộng đồng PkmLens.'}</p></div>}
+    {!backendOnline && <div role="status" className="filter-note" style={{ margin: '16px 0', border: '1px solid #fed7aa', background: '#fffaf5', color: '#9a3412', borderRadius: '12px' }}>
+      <strong>💡 Chế độ xem trước (Vercel):</strong> Đang hiển thị danh mục mẫu. Để kết nối cơ sở dữ liệu và kích hoạt toàn bộ tính năng Live AI Camera, hãy cấu hình biến môi trường <code>VITE_API_URL</code> trên Vercel.
+    </div>}
     <div className="discovery-tabs"><div><Link className={!salesOnly && !savedOnly ? 'selected' : ''} to="/"><Cards size={19} />Khám phá catalog</Link><Link className={salesOnly ? 'selected' : ''} to="/market">Đang mở bán{sales.length > 0 && <small>{sales.length}</small>}</Link></div><span className="source-note"><GlobeHemisphereWest size={16} /> Dữ liệu CardCorpus & TCGdex</span></div>
     <div className="market-layout"><aside className="filter-sidebar" aria-label="Lọc thẻ">{filters()}</aside><section className="results-area" aria-label="Kết quả thẻ"><div className="results-toolbar"><div><h2>{savedOnly ? `${sorted.length} thẻ đã lưu` : `${total.toLocaleString('vi-VN')} ${salesOnly ? 'tin đăng' : 'lá thẻ để khám phá'}`}</h2><p>{q ? `Kết quả cho “${q}”` : salesOnly ? 'Giá và tình trạng do người bán cung cấp.' : 'Từ những bản in đầu tiên đến những nét vẽ bạn yêu.'}</p></div><div className="result-controls"><button className="icon-button mobile-filter" aria-label="Mở bộ lọc" onClick={() => setFilterOpen(true)}><SlidersHorizontal size={21} /><span>Lọc</span></button><label className="sort-control"><span className="sr-only">Sắp xếp thẻ</span><select value={sort} onChange={e => setSort(e.target.value)}><option value="featured">Nổi bật trước</option><option value="name">Tên A → Z</option><option value="price-up">Giá thấp → cao</option><option value="price-down">Giá cao → thấp</option></select><CaretDown size={14} /></label><div className="view-controls"><button aria-label="Xem dạng lưới" aria-pressed={view === 'grid'} className={view === 'grid' ? 'active' : ''} onClick={() => setView('grid')}><SquaresFour size={20} /></button><button aria-label="Xem dạng danh sách" aria-pressed={view === 'list'} className={view === 'list' ? 'active' : ''} onClick={() => setView('list')}><List size={21} /></button></div></div></div>
     {(q || setId || language || rare) && <div className="active-filters"><span>Đang lọc:</span>{q && <button onClick={() => { const next = new URLSearchParams(params); next.delete('q'); setParams(next); }}>{q}<X size={13} /></button>}{setId && <button onClick={() => updateSet('')}>{sets.find(set => set.id === setId)?.name}<X size={13} /></button>}{language && <button onClick={() => updateLanguage('')}>{languageLabel(language)}<X size={13} /></button>}{rare && <button onClick={() => setRare(false)}>Rare & Illustration<X size={13} /></button>}</div>}

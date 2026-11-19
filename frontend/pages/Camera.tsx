@@ -320,7 +320,10 @@ export default function CameraPage() {
       };
       ws.onerror = () => {
         if (socket.current !== ws) return;
-        connectionError = true; stop(); setError('Chưa kết nối được dịch vụ AI. Kiểm tra máy chủ và thử lại.'); logEvent('AI socket error');
+        connectionError = true; stop();
+        const isStaticHost = !import.meta.env.VITE_WS_URL && !import.meta.env.VITE_API_URL && location.hostname.includes('vercel.app');
+        setError(isStaticHost ? 'Chưa kết nối máy chủ AI Python. Cần cấu hình VITE_API_URL hoặc VITE_WS_URL trên Vercel để quét thẻ.' : 'Chưa kết nối được dịch vụ AI. Kiểm tra máy chủ và thử lại.');
+        logEvent('AI socket error');
       };
       ws.onclose = () => {
         if (socket.current !== ws) return;
